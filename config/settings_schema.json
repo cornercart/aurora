@@ -1,0 +1,91 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Aurora",
+    "theme_version": "1.0.0",
+    "theme_author": "CornerCart",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary (Blue)",
+        "default": "#1D4AFE"
+      },
+      {
+        "type": "color",
+        "id": "color_navy",
+        "label": "Navy (Text)",
+        "default": "#112F54"
+      },
+      {
+        "type": "color",
+        "id": "color_dark",
+        "label": "Dark (Headings)",
+        "default": "#0D1340"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted Purple",
+        "default": "#50436F"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_light_bg",
+        "label": "Light Background",
+        "default": "#F5F7FA"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "label": "Heading Font",
+        "default": "sora_n6"
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Body Font",
+        "default": "inter_n4"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "96 x 96px .png recommended"
+      }
+    ]
+  }
+]

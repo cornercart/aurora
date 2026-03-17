@@ -1,0 +1,20 @@
+<!-- Footer section placeholder — to be designed -->
+<footer class="w-full py-12 bg-cc-light">
+  <div class="max-w-[1400px] mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="font-heading font-semibold text-cc-navy">
+        {{ shop.name }}
+      </p>
+      <p class="text-sm text-cc-muted">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}

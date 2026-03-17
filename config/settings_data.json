@@ -1,0 +1,21 @@
+{
+  "current": {
+    "color_primary": "#1D4AFE",
+    "color_navy": "#112F54",
+    "color_dark": "#0D1340",
+    "color_muted": "#50436F",
+    "color_background": "#FFFFFF",
+    "color_light_bg": "#F5F7FA",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  }
+}
