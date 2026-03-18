@@ -1,0 +1,87 @@
+<section class="py-12 md:py-20">
+  <div class="max-w-[1400px] mx-auto px-6">
+    <a href="{{ routes.account_url }}" class="text-sm font-medium text-cc-blue hover:underline">&larr; Back to account</a>
+
+    <h1 class="font-heading text-3xl font-bold text-cc-dark mt-4 mb-2">{{ order.name }}</h1>
+    <p class="text-sm text-cc-muted mb-10">Placed on {{ order.created_at | date: '%B %d, %Y at %I:%M %p' }}</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div class="lg:col-span-2">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-100">
+                <th class="text-left py-3 pr-4 font-semibold text-cc-navy">Product</th>
+                <th class="text-left py-3 pr-4 font-semibold text-cc-navy">SKU</th>
+                <th class="text-center py-3 pr-4 font-semibold text-cc-navy">Qty</th>
+                <th class="text-right py-3 font-semibold text-cc-navy">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for line_item in order.line_items -%}
+                <tr class="border-b border-gray-50">
+                  <td class="py-3 pr-4">
+                    <p class="font-medium text-cc-navy">{{ line_item.title }}</p>
+                    {%- if line_item.variant.title != 'Default Title' -%}
+                      <p class="text-xs text-cc-muted">{{ line_item.variant.title }}</p>
+                    {%- endif -%}
+                  </td>
+                  <td class="py-3 pr-4 text-cc-muted">{{ line_item.sku }}</td>
+                  <td class="py-3 pr-4 text-center text-cc-navy">{{ line_item.quantity }}</td>
+                  <td class="py-3 text-right text-cc-navy font-medium">{{ line_item.final_line_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 flex flex-col items-end gap-1 text-sm">
+          <div class="flex justify-between w-full max-w-xs">
+            <span class="text-cc-muted">Subtotal</span>
+            <span class="text-cc-navy">{{ order.line_items_subtotal_price | money }}</span>
+          </div>
+          {%- for discount in order.discounts -%}
+            <div class="flex justify-between w-full max-w-xs">
+              <span class="text-cc-muted">Discount ({{ discount.code }})</span>
+              <span class="text-cc-navy">-{{ discount.savings | money }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for shipping_method in order.shipping_methods -%}
+            <div class="flex justify-between w-full max-w-xs">
+              <span class="text-cc-muted">Shipping ({{ shipping_method.title }})</span>
+              <span class="text-cc-navy">{{ shipping_method.price | money }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for tax_line in order.tax_lines -%}
+            <div class="flex justify-between w-full max-w-xs">
+              <span class="text-cc-muted">Tax ({{ tax_line.title }} {{ tax_line.rate_percentage }}%)</span>
+              <span class="text-cc-navy">{{ tax_line.price | money }}</span>
+            </div>
+          {%- endfor -%}
+          <div class="flex justify-between w-full max-w-xs pt-2 border-t border-gray-100">
+            <span class="font-semibold text-cc-dark">Total</span>
+            <span class="font-heading font-bold text-cc-dark">{{ order.total_net_amount | money }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-1 flex flex-col gap-6">
+        <div class="bg-cc-light rounded-2xl p-6">
+          <h2 class="font-heading text-base font-semibold text-cc-dark mb-3">Shipping address</h2>
+          <div class="text-sm text-cc-muted">{{ order.shipping_address | format_address }}</div>
+        </div>
+
+        <div class="bg-cc-light rounded-2xl p-6">
+          <h2 class="font-heading text-base font-semibold text-cc-dark mb-3">Billing address</h2>
+          <div class="text-sm text-cc-muted">{{ order.billing_address | format_address }}</div>
+        </div>
+
+        <div class="bg-cc-light rounded-2xl p-6">
+          <h2 class="font-heading text-base font-semibold text-cc-dark mb-3">Status</h2>
+          <p class="text-sm"><span class="font-medium text-cc-navy">Payment:</span> <span class="text-cc-muted">{{ order.financial_status_label }}</span></p>
+          <p class="text-sm mt-1"><span class="font-medium text-cc-navy">Fulfillment:</span> <span class="text-cc-muted">{{ order.fulfillment_status_label }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

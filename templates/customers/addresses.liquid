@@ -1,0 +1,92 @@
+<section class="py-12 md:py-20">
+  <div class="max-w-[800px] mx-auto px-6">
+    <a href="{{ routes.account_url }}" class="text-sm font-medium text-cc-blue hover:underline">&larr; Back to account</a>
+
+    <h1 class="font-heading text-3xl font-bold text-cc-dark mt-4 mb-10">Your Addresses</h1>
+
+    <!-- New Address Form -->
+    <details class="mb-10">
+      <summary class="cursor-pointer font-heading text-sm font-semibold text-cc-blue hover:underline">Add a new address</summary>
+      <div class="mt-4">
+        {% form 'customer_address', customer.new_address %}
+          <div class="flex flex-col gap-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1">
+                <label for="AddressFirstName" class="text-sm font-semibold text-cc-navy">First name</label>
+                <input type="text" name="address[first_name]" id="AddressFirstName" autocomplete="given-name"
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+              </div>
+              <div class="flex flex-col gap-1">
+                <label for="AddressLastName" class="text-sm font-semibold text-cc-navy">Last name</label>
+                <input type="text" name="address[last_name]" id="AddressLastName" autocomplete="family-name"
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+              </div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="AddressAddress1" class="text-sm font-semibold text-cc-navy">Address</label>
+              <input type="text" name="address[address1]" id="AddressAddress1" autocomplete="address-line1"
+                class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="AddressAddress2" class="text-sm font-semibold text-cc-navy">Apartment, suite, etc.</label>
+              <input type="text" name="address[address2]" id="AddressAddress2" autocomplete="address-line2"
+                class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1">
+                <label for="AddressCity" class="text-sm font-semibold text-cc-navy">City</label>
+                <input type="text" name="address[city]" id="AddressCity" autocomplete="address-level2"
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+              </div>
+              <div class="flex flex-col gap-1">
+                <label for="AddressZip" class="text-sm font-semibold text-cc-navy">Postal/Zip code</label>
+                <input type="text" name="address[zip]" id="AddressZip" autocomplete="postal-code"
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+              </div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="AddressCountry" class="text-sm font-semibold text-cc-navy">Country</label>
+              <select name="address[country]" id="AddressCountry" autocomplete="country"
+                class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="AddressPhone" class="text-sm font-semibold text-cc-navy">Phone</label>
+              <input type="tel" name="address[phone]" id="AddressPhone" autocomplete="tel"
+                class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+            </div>
+            <div class="flex items-center gap-2">
+              {{ form.set_as_default_checkbox }}
+              <label for="address_default_address_new" class="text-sm text-cc-navy">Set as default address</label>
+            </div>
+            <button type="submit" class="self-start bg-cc-blue text-white font-heading font-semibold text-sm py-3 px-6 rounded-pill hover:opacity-90 transition-opacity">Add address</button>
+          </div>
+        {% endform %}
+      </div>
+    </details>
+
+    <!-- Existing Addresses -->
+    {%- if customer.addresses.size > 0 -%}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {%- for address in customer.addresses -%}
+          <div class="bg-cc-light rounded-2xl p-6">
+            {%- if address == customer.default_address -%}
+              <span class="inline-block text-xs font-semibold text-cc-blue mb-2">Default</span>
+            {%- endif -%}
+            <div class="text-sm text-cc-muted mb-4">
+              {{ address | format_address }}
+            </div>
+            <div class="flex gap-3 text-sm">
+              <a href="{{ routes.account_addresses_url }}" class="text-cc-blue hover:underline">Edit</a>
+              {% form 'customer_address', address %}
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure?')">Delete</button>
+              {% endform %}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>

@@ -1,0 +1,87 @@
+<section class="py-12 md:py-20">
+  <div class="max-w-[1400px] mx-auto px-6">
+    <h1 class="font-heading text-3xl md:text-4xl font-bold text-cc-dark mb-10">Your cart</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+          {%- for item in cart.items -%}
+            <div class="flex gap-5 pb-6 border-b border-gray-100">
+              <a href="{{ item.url }}" class="shrink-0">
+                <div class="w-24 h-24 rounded-xl overflow-hidden bg-cc-light">
+                  {%- if item.image -%}
+                    {{ item.image | image_url: width: 200 | image_tag: class: 'w-full h-full object-cover', loading: 'lazy' }}
+                  {%- endif -%}
+                </div>
+              </a>
+
+              <div class="flex-1 flex flex-col gap-1">
+                <a href="{{ item.url }}" class="font-heading text-sm font-semibold text-cc-navy hover:text-cc-blue transition-colors">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="text-xs text-cc-muted">{{ item.variant.title }}</p>
+                {%- endunless -%}
+                <p class="text-sm font-semibold text-cc-navy mt-auto">{{ item.final_line_price | money }}</p>
+              </div>
+
+              <div class="flex flex-col items-end gap-2">
+                <div class="flex items-center border border-gray-200 rounded-xl overflow-hidden">
+                  <label for="updates_{{ item.key }}" class="sr-only">Quantity for {{ item.product.title }}</label>
+                  <input
+                    type="number"
+                    name="updates[]"
+                    id="updates_{{ item.key }}"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    class="w-16 text-center text-sm py-2 font-body focus:outline-none"
+                  >
+                </div>
+                <a href="{{ item.url_to_remove }}" class="text-xs text-cc-muted hover:text-red-500 transition-colors">Remove</a>
+              </div>
+            </div>
+          {%- endfor -%}
+
+          <button type="submit" class="self-start text-sm font-semibold text-cc-blue hover:underline">Update cart</button>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-cc-light rounded-2xl p-8 flex flex-col gap-4 sticky top-8">
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-cc-muted">Subtotal</span>
+              <span class="font-heading font-bold text-lg text-cc-dark">{{ cart.total_price | money }}</span>
+            </div>
+            <p class="text-xs text-cc-muted">Shipping and taxes calculated at checkout.</p>
+
+            <a
+              href="/checkout"
+              class="block w-full text-center bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity mt-4"
+            >
+              Check out
+            </a>
+
+            <a href="/collections/all" class="block text-center text-sm text-cc-blue hover:underline">Continue shopping</a>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="text-center py-16">
+        <p class="text-cc-muted font-body text-lg mb-6">Your cart is empty.</p>
+        <a
+          href="/collections/all"
+          class="inline-block bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+        >
+          Continue shopping
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

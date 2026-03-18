@@ -1,0 +1,63 @@
+<section class="py-12 md:py-20">
+  <div class="max-w-[1400px] mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+      <h1 class="font-heading text-3xl font-bold text-cc-dark">My Account</h1>
+      <a href="{{ routes.account_logout_url }}" class="text-sm text-cc-muted hover:text-cc-blue transition-colors">Log out</a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <!-- Order History -->
+      <div class="lg:col-span-2">
+        <h2 class="font-heading text-xl font-semibold text-cc-dark mb-6">Order History</h2>
+
+        {%- if customer.orders.size > 0 -%}
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="text-left py-3 pr-4 font-semibold text-cc-navy">Order</th>
+                  <th class="text-left py-3 pr-4 font-semibold text-cc-navy">Date</th>
+                  <th class="text-left py-3 pr-4 font-semibold text-cc-navy">Status</th>
+                  <th class="text-right py-3 font-semibold text-cc-navy">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for order in customer.orders -%}
+                  <tr class="border-b border-gray-50">
+                    <td class="py-3 pr-4">
+                      <a href="{{ order.customer_url }}" class="text-cc-blue hover:underline font-medium">{{ order.name }}</a>
+                    </td>
+                    <td class="py-3 pr-4 text-cc-muted">{{ order.created_at | date: '%B %d, %Y' }}</td>
+                    <td class="py-3 pr-4">
+                      <span class="inline-block px-2 py-1 text-xs font-medium rounded-full bg-cc-light text-cc-navy">{{ order.financial_status_label }}</span>
+                    </td>
+                    <td class="py-3 text-right text-cc-navy font-medium">{{ order.total_net_amount | money }}</td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        {%- else -%}
+          <p class="text-cc-muted">You haven't placed any orders yet.</p>
+        {%- endif -%}
+      </div>
+
+      <!-- Account Details -->
+      <div class="lg:col-span-1">
+        <h2 class="font-heading text-xl font-semibold text-cc-dark mb-6">Account Details</h2>
+        <div class="bg-cc-light rounded-2xl p-6">
+          <p class="font-semibold text-cc-navy">{{ customer.name }}</p>
+          <p class="text-sm text-cc-muted mt-1">{{ customer.email }}</p>
+
+          {%- if customer.default_address -%}
+            <div class="mt-4 pt-4 border-t border-gray-200 text-sm text-cc-muted">
+              {{ customer.default_address | format_address }}
+            </div>
+          {%- endif -%}
+
+          <a href="{{ routes.account_addresses_url }}" class="inline-block mt-4 text-sm text-cc-blue hover:underline">Manage addresses</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

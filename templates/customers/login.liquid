@@ -1,0 +1,60 @@
+<section class="py-12 md:py-20">
+  <div class="max-w-md mx-auto px-6">
+    <h1 class="font-heading text-3xl font-bold text-cc-dark mb-8 text-center">Login</h1>
+
+    {% form 'customer_login' %}
+      <div class="flex flex-col gap-4">
+        {%- if form.errors -%}
+          <div class="bg-red-50 text-red-600 text-sm rounded-xl p-4">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="flex flex-col gap-1">
+          <label for="CustomerEmail" class="text-sm font-semibold text-cc-navy">Email</label>
+          <input type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="CustomerPassword" class="text-sm font-semibold text-cc-navy">Password</label>
+          <input type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+        </div>
+
+        <button type="submit" class="w-full bg-cc-blue text-white font-heading font-semibold text-base py-4 rounded-pill hover:opacity-90 transition-opacity">Sign in</button>
+
+        <div class="flex justify-between text-sm">
+          <a href="{{ routes.account_register_url }}" class="text-cc-blue hover:underline">Create account</a>
+          <a href="#recover" id="RecoverLink" class="text-cc-muted hover:underline">Forgot password?</a>
+        </div>
+      </div>
+    {% endform %}
+
+    <div id="RecoverForm" class="hidden mt-10">
+      <h2 class="font-heading text-xl font-bold text-cc-dark mb-4 text-center">Reset your password</h2>
+      {% form 'recover_customer_password' %}
+        <div class="flex flex-col gap-4">
+          {%- if form.posted_successfully? -%}
+            <p class="text-sm text-green-600">We've sent you an email with a link to reset your password.</p>
+          {%- endif -%}
+          <input type="email" name="email" placeholder="Email" autocomplete="email" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+          <button type="submit" class="w-full bg-cc-blue text-white font-heading font-semibold text-sm py-3 rounded-pill hover:opacity-90 transition-opacity">Submit</button>
+          <a href="#login" id="LoginLink" class="text-sm text-cc-muted hover:underline text-center">Back to login</a>
+        </div>
+      {% endform %}
+    </div>
+
+    <script>
+      document.getElementById('RecoverLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('RecoverForm').classList.remove('hidden');
+        this.closest('form').parentElement.querySelector('form').style.display = 'none';
+      });
+      document.getElementById('LoginLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('RecoverForm').classList.add('hidden');
+        document.querySelector('[action*="login"]').style.display = '';
+      });
+    </script>
+  </div>
+</section>

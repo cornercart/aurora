@@ -1,0 +1,43 @@
+<section class="py-12 md:py-20">
+  <div class="max-w-md mx-auto px-6">
+    <h1 class="font-heading text-3xl font-bold text-cc-dark mb-8 text-center">Create account</h1>
+
+    {% form 'create_customer' %}
+      <div class="flex flex-col gap-4">
+        {%- if form.errors -%}
+          <div class="bg-red-50 text-red-600 text-sm rounded-xl p-4">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="flex flex-col gap-1">
+          <label for="FirstName" class="text-sm font-semibold text-cc-navy">First name</label>
+          <input type="text" name="customer[first_name]" id="FirstName" autocomplete="given-name" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="LastName" class="text-sm font-semibold text-cc-navy">Last name</label>
+          <input type="text" name="customer[last_name]" id="LastName" autocomplete="family-name" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="Email" class="text-sm font-semibold text-cc-navy">Email</label>
+          <input type="email" name="customer[email]" id="Email" autocomplete="email" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="Password" class="text-sm font-semibold text-cc-navy">Password</label>
+          <input type="password" name="customer[password]" id="Password" autocomplete="new-password" required
+            class="border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
+        </div>
+
+        <button type="submit" class="w-full bg-cc-blue text-white font-heading font-semibold text-base py-4 rounded-pill hover:opacity-90 transition-opacity">Create account</button>
+
+        <p class="text-sm text-center text-cc-muted">
+          Already have an account? <a href="{{ routes.account_login_url }}" class="text-cc-blue hover:underline">Sign in</a>
+        </p>
+      </div>
+    {% endform %}
+  </div>
+</section>

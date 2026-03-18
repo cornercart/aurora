@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ 'gift_cards.issued.title' | t }} - {{ shop.name }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cc-blue': '#1D4AFE',
+            'cc-navy': '#112F54',
+            'cc-dark': '#0D1340',
+            'cc-muted': '#50436F',
+            'cc-light': '#F5F7FA',
+          },
+          fontFamily: {
+            'heading': ['Sora', 'sans-serif'],
+            'body': ['Inter', 'sans-serif'],
+          },
+          borderRadius: { 'pill': '63px' },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; margin: 0; }
+    h1, h2, h3 { font-family: 'Sora', sans-serif; }
+  </style>
+
+  {{ content_for_header }}
+</head>
+<body class="font-body text-cc-navy antialiased bg-cc-light min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full mx-auto px-6 py-16 text-center">
+    <h1 class="font-heading text-2xl font-bold text-cc-dark mb-2">{{ shop.name }}</h1>
+    <p class="text-cc-muted mb-8">Here's your gift card!</p>
+
+    <div class="bg-white rounded-2xl p-8 shadow-sm mb-8">
+      {%- if gift_card.image -%}
+        <img src="{{ gift_card.image | image_url: width: 400 }}" alt="Gift card" class="w-full rounded-xl mb-6">
+      {%- endif -%}
+
+      <p class="font-heading text-4xl font-bold text-cc-blue mb-4">{{ gift_card.balance | money }}</p>
+
+      {%- if gift_card.initial_value != gift_card.balance -%}
+        <p class="text-sm text-cc-muted mb-4">Initial value: {{ gift_card.initial_value | money }}</p>
+      {%- endif -%}
+
+      <div class="bg-cc-light rounded-xl p-4 mb-4">
+        <p class="text-xs text-cc-muted mb-1">Gift card code</p>
+        <p class="font-heading font-bold text-lg text-cc-dark tracking-wider">{{ gift_card.code | format_code }}</p>
+      </div>
+
+      {%- if gift_card.expired -%}
+        <p class="text-sm text-red-500 font-semibold">Expired on {{ gift_card.expires_on | date: '%B %d, %Y' }}</p>
+      {%- elsif gift_card.expires_on -%}
+        <p class="text-sm text-cc-muted">Expires on {{ gift_card.expires_on | date: '%B %d, %Y' }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if gift_card.pass_url -%}
+      <a href="{{ gift_card.pass_url }}" class="inline-block mb-4">
+        <img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" alt="Add to Apple Wallet" class="h-10">
+      </a>
+    {%- endif -%}
+
+    <a href="{{ shop.url }}" class="inline-block bg-cc-blue text-white font-heading font-semibold text-sm py-3 px-6 rounded-pill hover:opacity-90 transition-opacity">Shop now</a>
+
+    <div class="mt-6">
+      <p class="text-xs text-cc-muted">
+        {%- if gift_card.enabled -%}
+          Use this code at checkout.
+        {%- else -%}
+          This gift card is disabled.
+        {%- endif -%}
+      </p>
+    </div>
+  </div>
+</body>
+</html>
