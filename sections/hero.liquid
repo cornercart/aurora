@@ -1,0 +1,434 @@
+{%- liquid
+  assign has_gradient = section.settings.enable_gradient
+  assign min_h = section.settings.min_height
+-%}
+
+<section
+  class="relative overflow-hidden flex items-center {{ min_h }}"
+  {{ section.shopify_attributes }}
+>
+  {%- if has_gradient -%}
+    {% render 'gradient-background',
+      color_1: section.settings.gradient_color_1,
+      color_2: section.settings.gradient_color_2,
+      color_3: section.settings.gradient_color_3,
+      color_4: section.settings.gradient_color_4,
+      color_5: section.settings.gradient_color_5,
+      speed: section.settings.gradient_speed,
+      intensity: section.settings.gradient_intensity
+    %}
+  {%- endif -%}
+
+  {%- if section.settings.bg_color != blank and has_gradient == false -%}
+    <div class="absolute inset-0" style="background-color: {{ section.settings.bg_color }};"></div>
+  {%- endif -%}
+
+  <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+
+        {%- when 'center_aligned' -%}
+          <div class="flex flex-col items-center text-center max-w-3xl mx-auto gap-6" {{ block.shopify_attributes }}>
+            {%- if block.settings.eyebrow != blank -%}
+              <span class="inline-block text-sm font-semibold tracking-wide uppercase {% if block.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %}">
+                {{ block.settings.eyebrow }}
+              </span>
+            {%- endif -%}
+
+            {%- if block.settings.heading != blank -%}
+              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight {% if block.settings.text_light %}text-white{% else %}text-cc-dark{% endif %}">
+                {{ block.settings.heading }}
+              </h1>
+            {%- endif -%}
+
+            {%- if block.settings.subheading != blank -%}
+              <p class="text-lg md:text-xl leading-relaxed max-w-2xl {% if block.settings.text_light %}text-white/80{% else %}text-cc-muted{% endif %}">
+                {{ block.settings.subheading }}
+              </p>
+            {%- endif -%}
+
+            {%- if block.settings.button_label != blank -%}
+              <div class="flex flex-wrap items-center justify-center gap-4 mt-2">
+                <a
+                  href="{{ block.settings.button_url }}"
+                  class="inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+                >
+                  {{ block.settings.button_label }}
+                </a>
+                {%- if block.settings.secondary_button_label != blank -%}
+                  <a
+                    href="{{ block.settings.secondary_button_url }}"
+                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 rounded-pill border {% if block.settings.text_light %}border-white/30 text-white hover:bg-white/10{% else %}border-cc-navy/20 text-cc-navy hover:bg-cc-light{% endif %} transition-colors"
+                  >
+                    {{ block.settings.secondary_button_label }}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+        {%- when 'left_with_image' -%}
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center" {{ block.shopify_attributes }}>
+            <div class="flex flex-col gap-6">
+              {%- if block.settings.eyebrow != blank -%}
+                <span class="inline-block text-sm font-semibold tracking-wide uppercase {% if block.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %}">
+                  {{ block.settings.eyebrow }}
+                </span>
+              {%- endif -%}
+
+              {%- if block.settings.heading != blank -%}
+                <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight {% if block.settings.text_light %}text-white{% else %}text-cc-dark{% endif %}">
+                  {{ block.settings.heading }}
+                </h1>
+              {%- endif -%}
+
+              {%- if block.settings.subheading != blank -%}
+                <p class="text-lg md:text-xl leading-relaxed {% if block.settings.text_light %}text-white/80{% else %}text-cc-muted{% endif %}">
+                  {{ block.settings.subheading }}
+                </p>
+              {%- endif -%}
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="flex flex-wrap items-center gap-4 mt-2">
+                  <a
+                    href="{{ block.settings.button_url }}"
+                    class="inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+                  >
+                    {{ block.settings.button_label }}
+                  </a>
+                  {%- if block.settings.secondary_button_label != blank -%}
+                    <a
+                      href="{{ block.settings.secondary_button_url }}"
+                      class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 rounded-pill border {% if block.settings.text_light %}border-white/30 text-white hover:bg-white/10{% else %}border-cc-navy/20 text-cc-navy hover:bg-cc-light{% endif %} transition-colors"
+                    >
+                      {{ block.settings.secondary_button_label }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="flex justify-center lg:justify-end">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag:
+                  class: 'w-full max-w-lg rounded-2xl shadow-lg',
+                  loading: 'eager',
+                  widths: '400,600,800'
+                }}
+              {%- else -%}
+                <div class="w-full max-w-lg aspect-[4/3] rounded-2xl bg-white/10 flex items-center justify-center">
+                  <span class="text-sm {% if block.settings.text_light %}text-white/40{% else %}text-cc-muted{% endif %}">Image placeholder</span>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+
+        {%- when 'left_aligned' -%}
+          <div class="flex flex-col gap-6 max-w-2xl" {{ block.shopify_attributes }}>
+            {%- if block.settings.eyebrow != blank -%}
+              <span class="inline-block text-sm font-semibold tracking-wide uppercase {% if block.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %}">
+                {{ block.settings.eyebrow }}
+              </span>
+            {%- endif -%}
+
+            {%- if block.settings.heading != blank -%}
+              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight {% if block.settings.text_light %}text-white{% else %}text-cc-dark{% endif %}">
+                {{ block.settings.heading }}
+              </h1>
+            {%- endif -%}
+
+            {%- if block.settings.subheading != blank -%}
+              <p class="text-lg md:text-xl leading-relaxed {% if block.settings.text_light %}text-white/80{% else %}text-cc-muted{% endif %}">
+                {{ block.settings.subheading }}
+              </p>
+            {%- endif -%}
+
+            {%- if block.settings.button_label != blank -%}
+              <div class="flex flex-wrap items-center gap-4 mt-2">
+                <a
+                  href="{{ block.settings.button_url }}"
+                  class="inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+                >
+                  {{ block.settings.button_label }}
+                </a>
+                {%- if block.settings.secondary_button_label != blank -%}
+                  <a
+                    href="{{ block.settings.secondary_button_url }}"
+                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 rounded-pill border {% if block.settings.text_light %}border-white/30 text-white hover:bg-white/10{% else %}border-cc-navy/20 text-cc-navy hover:bg-cc-light{% endif %} transition-colors"
+                  >
+                    {{ block.settings.secondary_button_label }}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "div",
+  "class": "hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "min_height",
+      "label": "Minimum height",
+      "options": [
+        { "value": "min-h-[60vh]", "label": "Small (60vh)" },
+        { "value": "min-h-[80vh]", "label": "Medium (80vh)" },
+        { "value": "min-h-screen", "label": "Full screen" }
+      ],
+      "default": "min-h-[80vh]"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gradient",
+      "label": "Enable animated gradient",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fallback background color",
+      "default": "#0D1340",
+      "info": "Used when gradient is disabled"
+    },
+    {
+      "type": "header",
+      "content": "Gradient Colors"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82F6"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#112F54"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Animation speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "info": "1 = slow, 10 = fast"
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Wave intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "info": "1 = subtle, 10 = dramatic"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "center_aligned",
+      "name": "Center Aligned",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "text_light",
+          "label": "Light text (for dark backgrounds)",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow text",
+          "default": "Introducing CornerCart"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "The smarter way to boost your Shopify sales"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "A beautiful, conversion-optimized cart drawer that helps you increase AOV with upsells, cross-sells, and smart recommendations."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Primary button label",
+          "default": "Get Started Free"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Primary button link"
+        },
+        {
+          "type": "text",
+          "id": "secondary_button_label",
+          "label": "Secondary button label"
+        },
+        {
+          "type": "url",
+          "id": "secondary_button_url",
+          "label": "Secondary button link"
+        }
+      ]
+    },
+    {
+      "type": "left_aligned",
+      "name": "Left Aligned",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "text_light",
+          "label": "Light text (for dark backgrounds)",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow text"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Boost your Shopify sales"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Primary button label",
+          "default": "Get Started"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Primary button link"
+        },
+        {
+          "type": "text",
+          "id": "secondary_button_label",
+          "label": "Secondary button label"
+        },
+        {
+          "type": "url",
+          "id": "secondary_button_url",
+          "label": "Secondary button link"
+        }
+      ]
+    },
+    {
+      "type": "left_with_image",
+      "name": "Left Text + Right Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "text_light",
+          "label": "Light text (for dark backgrounds)",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow text"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Boost your Shopify sales"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Primary button label",
+          "default": "Get Started"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Primary button link"
+        },
+        {
+          "type": "text",
+          "id": "secondary_button_label",
+          "label": "Secondary button label"
+        },
+        {
+          "type": "url",
+          "id": "secondary_button_url",
+          "label": "Secondary button link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "center_aligned"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

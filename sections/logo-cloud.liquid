@@ -1,0 +1,244 @@
+{%- liquid
+  assign speed = section.settings.scroll_speed | default: 30
+  assign logo_height = section.settings.logo_height | default: 32
+  assign gap = section.settings.gap | default: 64
+  assign row_gap = section.settings.row_gap | default: 24
+-%}
+
+<section
+  class="relative overflow-hidden {% if section.settings.transparent_bg %}{% else %}bg-cc-light{% endif %} py-10 md:py-16"
+  {{ section.shopify_attributes }}
+>
+  {%- if section.settings.heading != blank -%}
+    <div class="max-w-[1400px] mx-auto px-6 mb-8 {% if section.settings.heading_center %}text-center{% endif %}">
+      <p class="text-sm font-semibold {% if section.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %} uppercase tracking-wide">
+        {{ section.settings.heading }}
+      </p>
+    </div>
+  {%- endif -%}
+
+  <div class="flex flex-col" style="gap: {{ row_gap }}px;">
+    <!-- Row 1: scrolls left -->
+    {%- assign row_1_blocks = section.blocks | where: 'type', 'logo_row_1' -%}
+    {%- if row_1_blocks.size > 0 -%}
+      <div class="logo-scroll-container overflow-hidden" aria-hidden="true">
+        <div
+          class="logo-scroll-track flex items-center w-max"
+          style="gap: {{ gap }}px; animation: logo-scroll-left {{ speed }}s linear infinite;"
+        >
+          {%- for pass in (1..2) -%}
+            {%- for block in row_1_blocks -%}
+              <div class="shrink-0 flex items-center justify-center" {{ block.shopify_attributes }}>
+                {%- if block.settings.logo != blank -%}
+                  {{ block.settings.logo | image_url: height: logo_height | image_tag:
+                    class: 'object-contain opacity-60 hover:opacity-100 transition-opacity',
+                    loading: 'lazy',
+                    style: 'height: ' | append: logo_height | append: 'px; width: auto;'
+                  }}
+                {%- else -%}
+                  <div class="h-8 w-24 rounded bg-gray-200/50 flex items-center justify-center">
+                    <span class="text-xs text-gray-400">Logo</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <!-- Row 2: scrolls right -->
+    {%- assign row_2_blocks = section.blocks | where: 'type', 'logo_row_2' -%}
+    {%- if row_2_blocks.size > 0 -%}
+      <div class="logo-scroll-container overflow-hidden" aria-hidden="true">
+        <div
+          class="logo-scroll-track flex items-center w-max"
+          style="gap: {{ gap }}px; animation: logo-scroll-right {{ speed }}s linear infinite;"
+        >
+          {%- for pass in (1..2) -%}
+            {%- for block in row_2_blocks -%}
+              <div class="shrink-0 flex items-center justify-center" {{ block.shopify_attributes }}>
+                {%- if block.settings.logo != blank -%}
+                  {{ block.settings.logo | image_url: height: logo_height | image_tag:
+                    class: 'object-contain opacity-60 hover:opacity-100 transition-opacity',
+                    loading: 'lazy',
+                    style: 'height: ' | append: logo_height | append: 'px; width: auto;'
+                  }}
+                {%- else -%}
+                  <div class="h-8 w-24 rounded bg-gray-200/50 flex items-center justify-center">
+                    <span class="text-xs text-gray-400">Logo</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- Fade edges -->
+  {%- unless section.settings.disable_fade -%}
+    {%- if section.settings.transparent_bg -%}
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-cc-dark/80 to-transparent z-10"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-cc-dark/80 to-transparent z-10"></div>
+    {%- else -%}
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-cc-light to-transparent z-10"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-cc-light to-transparent z-10"></div>
+    {%- endif -%}
+  {%- endunless -%}
+</section>
+
+<style>
+  @keyframes logo-scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes logo-scroll-right {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+  .logo-scroll-container:hover .logo-scroll-track {
+    animation-play-state: paused;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Logo Cloud",
+  "tag": "div",
+  "class": "logo-cloud-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "Trusted by 10,000+ Shopify merchants"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_center",
+      "label": "Center heading",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_bg",
+      "label": "Transparent background",
+      "default": false,
+      "info": "Enable when placing over a gradient or dark section"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_light",
+      "label": "Light text",
+      "default": false,
+      "info": "Enable for dark backgrounds"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_fade",
+      "label": "Disable edge fade",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Scroll Settings"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll duration (seconds)",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "default": 30,
+      "info": "Lower = faster"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo height (px)",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between logos (px)",
+      "min": 24,
+      "max": 120,
+      "step": 8,
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Gap between rows (px)",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo_row_1",
+      "name": "Logo (Row 1)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text"
+        }
+      ]
+    },
+    {
+      "type": "logo_row_2",
+      "name": "Logo (Row 2)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo Cloud",
+      "blocks": [
+        { "type": "logo_row_1" },
+        { "type": "logo_row_1" },
+        { "type": "logo_row_1" },
+        { "type": "logo_row_1" },
+        { "type": "logo_row_1" },
+        { "type": "logo_row_1" },
+        { "type": "logo_row_2" },
+        { "type": "logo_row_2" },
+        { "type": "logo_row_2" },
+        { "type": "logo_row_2" },
+        { "type": "logo_row_2" },
+        { "type": "logo_row_2" }
+      ]
+    }
+  ]
+}
+{% endschema %}

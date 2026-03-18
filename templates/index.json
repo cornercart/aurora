@@ -1,4 +1,47 @@
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "min_height": "min-h-[80vh]",
+        "enable_gradient": true,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#6C3AED",
+        "gradient_color_3": "#0D1340",
+        "gradient_color_4": "#3B82F6",
+        "gradient_color_5": "#112F54",
+        "gradient_speed": 3,
+        "gradient_intensity": 4
+      },
+      "blocks": {
+        "hero_content": {
+          "type": "center_aligned",
+          "settings": {
+            "text_light": true,
+            "eyebrow": "Introducing CornerCart",
+            "heading": "The smarter way to boost your Shopify sales",
+            "subheading": "A beautiful, conversion-optimized cart drawer that helps you increase AOV with upsells, cross-sells, and smart recommendations.",
+            "button_label": "Get Started Free"
+          }
+        }
+      },
+      "block_order": ["hero_content"]
+    },
+    "logo_cloud": {
+      "type": "logo-cloud",
+      "settings": {
+        "heading": "Trusted by 10,000+ Shopify merchants",
+        "heading_center": true,
+        "transparent_bg": false,
+        "text_light": false,
+        "scroll_speed": 30,
+        "logo_height": 32,
+        "gap": 64,
+        "row_gap": 24
+      },
+      "blocks": {},
+      "block_order": []
+    }
+  },
+  "order": ["hero", "logo_cloud"]
 }
