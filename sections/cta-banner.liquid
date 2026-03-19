@@ -1,0 +1,355 @@
+{%- liquid
+  assign card_bg = section.settings.card_bg | default: '#0D1340'
+  assign text_color = section.settings.text_color | default: '#ffffff'
+  assign muted_text_color = section.settings.muted_text_color | default: 'rgba(255,255,255,0.7)'
+  assign bullets = section.blocks | where: 'type', 'bullet'
+-%}
+
+<section
+  class="py-16 md:py-24 relative overflow-hidden"
+  {{ section.shopify_attributes }}
+>
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6">
+    <div class="rounded-3xl overflow-hidden" style="background-color: {{ card_bg }};">
+      <div class="flex flex-col items-center text-center p-8 md:p-12 lg:p-16 lg:py-20 gap-6">
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight max-w-3xl" style="color: {{ text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="text-lg leading-relaxed font-body max-w-2xl" style="color: {{ muted_text_color }};">
+            {{ section.settings.description }}
+          </p>
+        {%- endif -%}
+
+        {%- if bullets.size > 0 -%}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 max-w-lg mx-auto text-left">
+            {%- for block in bullets -%}
+              <div class="flex items-center gap-3" {{ block.shopify_attributes }}>
+                <svg class="shrink-0 w-5 h-5" style="color: {{ text_color }};" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm font-body" style="color: {{ muted_text_color }};">{{ block.settings.text }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="flex flex-wrap items-center justify-center gap-4 mt-2">
+          {%- if section.settings.primary_cta_label != blank -%}
+            <a
+              href="{{ section.settings.primary_cta_url }}"
+              class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-primary"
+            >
+              {{ section.settings.primary_cta_label }}
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.secondary_cta_label != blank -%}
+            <a
+              href="{{ section.settings.secondary_cta_url }}"
+              class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-secondary"
+            >
+              {{ section.settings.secondary_cta_label }}
+            </a>
+          {%- endif -%}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CTA Banner",
+  "tag": "div",
+  "class": "cta-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Ready to boost your store's revenue?"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Join thousands of Shopify merchants who have increased their average order value with our powerful cart solution."
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_label",
+      "label": "Primary CTA label",
+      "default": "Get Started Free"
+    },
+    {
+      "type": "url",
+      "id": "primary_cta_url",
+      "label": "Primary CTA link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Secondary CTA label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_url",
+      "label": "Secondary CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#ffffffb3",
+      "info": "Used for description and bullet text"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F7FA",
+      "info": "Used when type is Solid color"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle (degrees)",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "header",
+      "content": "Animated Gradient Colors"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Animation speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "info": "1 = slow, 10 = fast"
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Wave intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Wave & Lines"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show bottom wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height (%)",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show wave lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity (%)",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Number of lines",
+      "min": 5,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet Point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Feature point"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CTA Banner",
+      "blocks": [
+        {
+          "type": "bullet",
+          "settings": { "text": "Easy one-click setup" }
+        },
+        {
+          "type": "bullet",
+          "settings": { "text": "No coding required" }
+        },
+        {
+          "type": "bullet",
+          "settings": { "text": "Works with any theme" }
+        },
+        {
+          "type": "bullet",
+          "settings": { "text": "Free plan available" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

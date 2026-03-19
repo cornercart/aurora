@@ -1,36 +1,45 @@
 <section class="py-12 md:py-20">
   <div class="max-w-[1400px] mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-      <!-- Product Media -->
+      <!-- Product Images -->
       <div>
-        {%- if product.featured_media -%}
-          <div class="aspect-square rounded-2xl overflow-hidden bg-cc-light">
-            {{ product.featured_media | image_url: width: 800 | image_tag:
-              class: 'w-full h-full object-cover',
-              loading: 'eager',
-              widths: '400,600,800'
-            }}
+        {%- if product.featured_image -%}
+          <div class="aspect-square rounded-xl overflow-hidden bg-cc-light">
+            <img
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              class="w-full h-full object-cover"
+              loading="eager"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+            >
           </div>
         {%- endif -%}
 
-        {%- if product.media.size > 1 -%}
+        {%- if product.images.size > 1 -%}
           <div class="grid grid-cols-4 gap-3 mt-4">
-            {%- for media in product.media offset: 1 -%}
-              <div class="aspect-square rounded-lg overflow-hidden bg-cc-light cursor-pointer">
-                {{ media | image_url: width: 200 | image_tag:
-                  class: 'w-full h-full object-cover',
-                  loading: 'lazy'
-                }}
-              </div>
+            {%- for image in product.images -%}
+              <button
+                type="button"
+                class="aspect-square rounded-lg overflow-hidden bg-cc-light border-2 transition-colors{% if forloop.first %} border-cc-blue{% else %} border-transparent hover:border-gray-300{% endif %}"
+                data-thumbnail
+              >
+                <img
+                  src="{{ image | image_url: width: 200 }}"
+                  alt="{{ image.alt | escape }}"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                >
+              </button>
             {%- endfor -%}
           </div>
         {%- endif -%}
       </div>
 
-      <!-- Product Info -->
+      <!-- Product Details -->
       <div class="flex flex-col gap-6">
         {%- if product.vendor -%}
-          <p class="text-sm font-medium text-cc-muted uppercase tracking-wide">{{ product.vendor }}</p>
+          <p class="text-sm font-medium text-cc-muted uppercase tracking-wide font-body">{{ product.vendor }}</p>
         {%- endif -%}
 
         <h1 class="font-heading text-3xl md:text-4xl font-bold text-cc-dark">{{ product.title }}</h1>
@@ -39,42 +48,50 @@
           {%- if product.compare_at_price > product.price -%}
             <span class="text-2xl font-bold text-cc-blue">{{ product.price | money }}</span>
             <span class="text-lg text-cc-muted line-through">{{ product.compare_at_price | money }}</span>
+            <span class="text-xs font-semibold uppercase tracking-wide bg-red-100 text-red-600 px-2 py-1 rounded-full">Sale</span>
           {%- else -%}
-            <span class="text-2xl font-bold text-cc-navy">{{ product.price | money }}</span>
+            <span class="text-2xl font-bold text-cc-dark">{{ product.price | money }}</span>
           {%- endif -%}
         </div>
 
-        {%- form 'product', product -%}
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
           {%- unless product.has_only_default_variant -%}
-            {%- for option in product.options_with_values -%}
-              <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-cc-navy">{{ option.name }}</label>
-                <select name="options[{{ option.name }}]" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30">
-                  {%- for value in option.values -%}
-                    <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
-                  {%- endfor -%}
-                </select>
-              </div>
-            {%- endfor -%}
+            <div class="flex flex-col gap-4 mb-6">
+              {%- for option in product.options_with_values -%}
+                <div class="flex flex-col gap-2">
+                  <label class="text-sm font-semibold text-cc-dark font-body">{{ option.name }}</label>
+                  <select
+                    name="options[{{ option.name }}]"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-body text-cc-dark bg-white focus:outline-none focus:ring-2 focus:ring-cc-blue/30 focus:border-cc-blue"
+                  >
+                    {%- for value in option.values -%}
+                      <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>
+                        {{ value }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                </div>
+              {%- endfor -%}
+            </div>
           {%- endunless -%}
 
-          <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-cc-navy" for="Quantity">Quantity</label>
+          <div class="flex flex-col gap-2 mb-6">
+            <label class="text-sm font-semibold text-cc-dark font-body" for="Quantity">Quantity</label>
             <input
               type="number"
               name="quantity"
               id="Quantity"
               value="1"
               min="1"
-              class="w-24 border border-gray-200 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-cc-blue/30"
+              class="w-24 border border-gray-200 rounded-xl px-4 py-3 text-sm font-body text-cc-dark focus:outline-none focus:ring-2 focus:ring-cc-blue/30 focus:border-cc-blue"
             >
           </div>
 
           <button
             type="submit"
-            class="w-full bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-primary w-full"
             {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
           >
             {%- if product.selected_or_first_available_variant.available -%}
@@ -83,10 +100,10 @@
               Sold out
             {%- endif -%}
           </button>
-        {%- endform -%}
+        </form>
 
         {%- if product.description != blank -%}
-          <div class="prose prose-sm text-cc-muted font-body leading-relaxed mt-4">
+          <div class="prose prose-sm text-cc-muted font-body leading-relaxed mt-2 max-w-none">
             {{ product.description }}
           </div>
         {%- endif -%}

@@ -1,5 +1,4 @@
 {%- liquid
-  assign has_gradient = section.settings.enable_gradient
   assign min_h = section.settings.min_height
   assign logo_block = section.blocks | where: 'type', 'logo_cloud' | first
 -%}
@@ -8,29 +7,28 @@
   class="relative overflow-hidden flex flex-col justify-center {{ min_h }}"
   {{ section.shopify_attributes }}
 >
-  {%- if has_gradient -%}
-    {% render 'gradient-background',
-      color_1: section.settings.gradient_color_1,
-      color_2: section.settings.gradient_color_2,
-      color_3: section.settings.gradient_color_3,
-      color_4: section.settings.gradient_color_4,
-      color_5: section.settings.gradient_color_5,
-      speed: section.settings.gradient_speed,
-      intensity: section.settings.gradient_intensity,
-      show_wave: section.settings.show_wave,
-      wave_color: section.settings.wave_color,
-      wave_height: section.settings.wave_height,
-      show_lines: section.settings.show_lines,
-      line_color: section.settings.line_color,
-      line_opacity: section.settings.line_opacity,
-      line_count: section.settings.line_count,
-      line_thickness: section.settings.line_thickness
-    %}
-  {%- endif -%}
-
-  {%- if section.settings.bg_color != blank and has_gradient == false -%}
-    <div class="absolute inset-0" style="background-color: {{ section.settings.bg_color }};"></div>
-  {%- endif -%}
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
 
   <!-- Hero content — extra top padding to clear the floating header -->
   <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 pt-28 md:pt-32 pb-16 md:pb-24 flex-1 flex items-center">
@@ -394,21 +392,47 @@
       "content": "Background"
     },
     {
-      "type": "checkbox",
-      "id": "enable_gradient",
-      "label": "Enable animated gradient",
-      "default": true
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "animated"
     },
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Fallback background color",
+      "label": "Background color",
       "default": "#0D1340",
-      "info": "Used when gradient is disabled"
+      "info": "Used when type is Solid color"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle (degrees)",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
     },
     {
       "type": "header",
-      "content": "Gradient Colors"
+      "content": "Animated Gradient Colors"
     },
     {
       "type": "color",

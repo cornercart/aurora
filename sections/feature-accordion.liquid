@@ -1,0 +1,559 @@
+{%- liquid
+  assign section_id = section.id
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+-%}
+
+<section
+  class="relative overflow-hidden py-16 md:py-24"
+  {{ section.shopify_attributes }}
+  id="fa-{{ section_id }}"
+>
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6">
+
+    {%- comment -%} Top row: Heading + Description {%- endcomment -%}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12 md:mb-16">
+      <div>
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style="color: {{ text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+      </div>
+      <div class="flex flex-col justify-center">
+        {%- if section.settings.description != blank -%}
+          <p class="text-base md:text-lg leading-relaxed mb-4" style="color: {{ muted_color }};">
+            {{ section.settings.description }}
+          </p>
+        {%- endif -%}
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ section.settings.cta_url }}" class="inline-flex items-center gap-1 font-semibold text-base group" style="color: {{ accent_color }};">
+            {{ section.settings.cta_label }}
+            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Bottom row: Accordion + Image {%- endcomment -%}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+
+      {%- comment -%} Left: Accordion list {%- endcomment -%}
+      <div class="fa-accordion-list">
+        {%- for block in section.blocks -%}
+          <div
+            class="fa-item relative transition-all duration-300"
+            data-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- comment -%} Border + progress bar {%- endcomment -%}
+            <div class="absolute bottom-0 left-0 right-0 h-[1px]" style="background: {{ text_color }}10;">
+              <div class="fa-progress-bar h-full" style="width: 0%; background: {{ accent_color }};"></div>
+            </div>
+            <button
+              class="fa-trigger w-full flex items-center gap-3 py-5 text-left group"
+              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+              type="button"
+            >
+              {%- if block.settings.icon != blank -%}
+                <span class="fa-icon shrink-0 transition-colors" style="color: {% if forloop.first %}{{ accent_color }}{% else %}{{ muted_color }}{% endif %};">
+                  {% render 'polaris-icon', icon: block.settings.icon, size: 20, color: 'currentColor' %}
+                </span>
+              {%- endif -%}
+              <span class="fa-title flex-1 font-heading font-semibold text-base transition-colors" style="color: {% if forloop.first %}{{ text_color }}{% else %}{{ muted_color }}{% endif %};">
+                {{ block.settings.title }}
+              </span>
+              <span class="fa-arrow shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all" style="background: {% if forloop.first %}{{ accent_color }}10{% else %}transparent{% endif %};">
+                <svg class="w-4 h-4 transition-transform {% if forloop.first %}rotate-0{% else %}-rotate-90{% endif %}" style="color: {{ muted_color }};" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+            <div class="fa-content overflow-hidden transition-all duration-300" style="max-height: {% if forloop.first %}200px{% else %}0{% endif %}; opacity: {% if forloop.first %}1{% else %}0{% endif %};">
+              <p class="pb-5 pr-10 pl-8 text-sm leading-relaxed" style="color: {{ muted_color }};">
+                {{ block.settings.description }}
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Right: Image area {%- endcomment -%}
+      <div class="fa-image-area relative rounded-2xl overflow-hidden bg-[#F5F5F5] min-h-[350px] lg:min-h-[450px]">
+        {%- for block in section.blocks -%}
+          <div
+            class="fa-image absolute inset-0 transition-all duration-500 flex items-center justify-center p-6"
+            data-index="{{ forloop.index0 }}"
+            style="opacity: {% if forloop.first %}1{% else %}0{% endif %}; transform: {% if forloop.first %}translateY(0){% else %}translateY(16px){% endif %};"
+          >
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1200 | image_tag:
+                class: 'w-full h-full object-contain rounded-lg',
+                loading: 'lazy',
+                widths: '600,800,1200'
+              }}
+            {%- else -%}
+              <div class="w-full h-full flex items-center justify-center rounded-lg" style="background: {{ text_color }}05;">
+                <span class="text-sm" style="color: {{ muted_color }};">{{ block.settings.title }} image</span>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const section = document.getElementById('fa-{{ section_id }}');
+  if (!section) return;
+
+  const items = section.querySelectorAll('.fa-item');
+  const images = section.querySelectorAll('.fa-image');
+  const accentColor = '{{ accent_color }}';
+  const mutedColor = '{{ muted_color }}';
+  const textColor = '{{ text_color }}';
+  const autoplay = {{ section.settings.autoplay | default: false }};
+  const duration = {{ section.settings.autoplay_speed | default: 5 }} * 1000;
+  let current = 0;
+  let animFrame = null;
+  let startTime = null;
+  let paused = false;
+  let elapsed = 0;
+
+  function activate(index, resetProgress) {
+    current = index;
+
+    items.forEach((item, i) => {
+      const trigger = item.querySelector('.fa-trigger');
+      const content = item.querySelector('.fa-content');
+      const icon = item.querySelector('.fa-icon');
+      const title = item.querySelector('.fa-title');
+      const arrow = item.querySelector('.fa-arrow');
+      const arrowSvg = arrow ? arrow.querySelector('svg') : null;
+      const progressBar = item.querySelector('.fa-progress-bar');
+      const isActive = i === index;
+
+      trigger.setAttribute('aria-expanded', isActive);
+      content.style.maxHeight = isActive ? content.scrollHeight + 'px' : '0';
+      content.style.opacity = isActive ? '1' : '0';
+
+      if (icon) icon.style.color = isActive ? accentColor : mutedColor;
+      if (title) title.style.color = isActive ? textColor : mutedColor;
+      if (arrow) arrow.style.background = isActive ? accentColor + '10' : 'transparent';
+      if (arrowSvg) {
+        arrowSvg.style.transform = isActive ? 'rotate(0deg)' : 'rotate(-90deg)';
+      }
+
+      // Reset progress bars
+      if (progressBar) {
+        progressBar.style.transition = 'none';
+        progressBar.style.width = isActive ? '0%' : '0%';
+      }
+    });
+
+    images.forEach((img, i) => {
+      const isActive = i === index;
+      img.style.opacity = isActive ? '1' : '0';
+      img.style.transform = isActive ? 'translateY(0)' : 'translateY(16px)';
+    });
+
+    // Start progress animation
+    if (autoplay && resetProgress !== false) {
+      startProgress();
+    }
+  }
+
+  function startProgress() {
+    if (animFrame) cancelAnimationFrame(animFrame);
+    elapsed = 0;
+    startTime = performance.now();
+
+    function tick(now) {
+      if (paused) {
+        animFrame = requestAnimationFrame(tick);
+        return;
+      }
+
+      const dt = now - startTime - elapsed;
+      // Track how much real (unpaused) time has passed
+      const bar = items[current].querySelector('.fa-progress-bar');
+      const rawElapsed = now - startTime;
+
+      if (bar) {
+        const pct = Math.min((rawElapsed / duration) * 100, 100);
+        bar.style.transition = 'none';
+        bar.style.width = pct + '%';
+      }
+
+      if (rawElapsed >= duration) {
+        // Move to next
+        const next = (current + 1) % items.length;
+        activate(next);
+        return;
+      }
+
+      animFrame = requestAnimationFrame(tick);
+    }
+
+    animFrame = requestAnimationFrame(tick);
+  }
+
+  // Click handlers
+  items.forEach((item, i) => {
+    const trigger = item.querySelector('.fa-trigger');
+    trigger.addEventListener('click', () => {
+      activate(i);
+    });
+  });
+
+  // Pause on hover
+  if (autoplay) {
+    const list = section.querySelector('.fa-accordion-list');
+    let pauseStart = 0;
+
+    list.addEventListener('mouseenter', () => {
+      paused = true;
+      pauseStart = performance.now();
+    });
+
+    list.addEventListener('mouseleave', () => {
+      // Shift startTime forward by the paused duration so progress resumes
+      if (pauseStart && startTime) {
+        startTime += (performance.now() - pauseStart);
+      }
+      paused = false;
+    });
+
+    // Start the first progress bar
+    startProgress();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Feature Accordion",
+  "tag": "div",
+  "class": "feature-accordion-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get to know CornerCart"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Replace multiple broken tools with CornerCart, the only cart platform designed to boost your AOV and make your customers happier."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA link label",
+      "default": "Platform Overview"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link URL"
+    },
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate items",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Seconds per item",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle (degrees)",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Gradient speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Gradient intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Line count",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon name",
+          "default": "star",
+          "info": "Polaris icon name (e.g. cart, rocket, analytics, bolt, shield, chat, users, globe, star, order, product, discount, gift-card). See all: polaris.shopify.com/icons"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Describe what this feature does and why it matters to your customers."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Feature image / screenshot"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Accordion",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "cart",
+            "title": "Smart Cart Drawer",
+            "description": "A beautiful, conversion-optimized slide-out cart with real-time updates, product recommendations, and a seamless checkout flow."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "rocket",
+            "title": "Upsell & Cross-sell",
+            "description": "Boost your AOV with intelligent product suggestions, bundles, and add-ons directly inside the cart experience."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "analytics",
+            "title": "Analytics Dashboard",
+            "description": "Track cart performance, conversion rates, and revenue impact with a real-time analytics dashboard built for merchants."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "settings",
+            "title": "Full Customization",
+            "description": "Match your brand perfectly with complete control over colors, fonts, layout, and behavior — no code required."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "bolt",
+            "title": "Lightning Fast",
+            "description": "Built for performance with lazy loading, minimal footprint, and zero impact on your store's page speed scores."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

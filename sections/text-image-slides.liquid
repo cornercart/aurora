@@ -8,14 +8,35 @@
 -%}
 
 <section
-  class="py-16 md:py-24"
-  style="background-color: {{ bg_color }};"
+  class="py-16 md:py-24 relative overflow-hidden"
   {{ section.shopify_attributes }}
   data-tis-section
   data-autoplay-speed="{{ autoplay_speed }}"
   id="tis-{{ section_id }}"
 >
-  <div class="max-w-[1400px] mx-auto px-6">
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+  <div class="max-w-[1400px] mx-auto px-6 relative z-10">
 
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
       <div class="mb-12 md:mb-16 {% if section.settings.heading_align == 'center' %}text-center{% endif %}">
@@ -217,13 +238,158 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
     },
     {
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
+      "info": "Used when gradient is disabled",
       "default": "#F5F7FA"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle (degrees)",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Gradient speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Gradient intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Line count",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
     },
     {
       "type": "color",

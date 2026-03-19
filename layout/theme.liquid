@@ -106,5 +106,34 @@
   </main>
 
   {% sections 'footer-group' %}
+
+  <!-- Polaris Icons CDN loader -->
+  <script>
+    (function() {
+      document.querySelectorAll('.polaris-icon-cdn').forEach(async function(el) {
+        const url = el.dataset.iconUrl;
+        if (!url) return;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) return;
+          const svg = await res.text();
+          const size = el.style.width || '20px';
+          const color = el.style.color || 'currentColor';
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(svg, 'image/svg+xml');
+          const svgEl = doc.querySelector('svg');
+          if (svgEl) {
+            svgEl.setAttribute('width', parseInt(size));
+            svgEl.setAttribute('height', parseInt(size));
+            svgEl.setAttribute('fill', color);
+            svgEl.querySelectorAll('path, circle, rect, polygon, line, polyline, ellipse').forEach(function(p) {
+              if (p.getAttribute('fill') && p.getAttribute('fill') !== 'none') p.setAttribute('fill', color);
+            });
+            el.innerHTML = svgEl.outerHTML;
+          }
+        } catch(e) {}
+      });
+    })();
+  </script>
 </body>
 </html>

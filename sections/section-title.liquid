@@ -1,0 +1,368 @@
+{%- liquid
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+  assign alignment = section.settings.alignment | default: 'center'
+-%}
+
+<section
+  class="py-16 md:py-24 relative overflow-hidden"
+  {{ section.shopify_attributes }}
+>
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6">
+
+    {%- if alignment == 'center' -%}
+      <div class="flex flex-col items-center text-center max-w-3xl mx-auto gap-4">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="inline-block text-sm font-semibold tracking-wide uppercase font-body" style="color: {{ accent_color }};">
+            {{ section.settings.eyebrow }}
+          </span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight"
+            style="
+              background: linear-gradient(179.2deg, rgb(13, 19, 64) 14.7%, rgb(80, 67, 111) 85.8%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
+          >
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subtitle != blank -%}
+          <p class="text-lg md:text-xl leading-relaxed font-body" style="color: {{ muted_color }};">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.cta_label != blank -%}
+          <div class="mt-4">
+            <a
+              href="{{ section.settings.cta_url }}"
+              class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 {% if section.settings.cta_style == 'secondary' %}btn-secondary{% else %}btn-primary{% endif %}"
+            >
+              {{ section.settings.cta_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+    {%- else -%}
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div class="flex flex-col gap-4 max-w-2xl">
+          {%- if section.settings.eyebrow != blank -%}
+            <span class="inline-block text-sm font-semibold tracking-wide uppercase font-body" style="color: {{ accent_color }};">
+              {{ section.settings.eyebrow }}
+            </span>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight"
+              style="
+                background: linear-gradient(179.2deg, rgb(13, 19, 64) 14.7%, rgb(80, 67, 111) 85.8%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+              "
+            >
+              {{ section.settings.heading }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.subtitle != blank -%}
+            <p class="text-lg md:text-xl leading-relaxed font-body" style="color: {{ muted_color }};">
+              {{ section.settings.subtitle }}
+            </p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.cta_label != blank -%}
+          <div class="shrink-0">
+            <a
+              href="{{ section.settings.cta_url }}"
+              class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 {% if section.settings.cta_style == 'secondary' %}btn-secondary{% else %}btn-primary{% endif %}"
+            >
+              {{ section.settings.cta_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Section Title",
+  "tag": "div",
+  "class": "section-title",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Our Features"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything you need to grow your store"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Powerful tools designed to help you increase conversions and boost average order value."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "CTA style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F7FA",
+      "info": "Used when type is Solid color"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle (degrees)",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "header",
+      "content": "Animated Gradient Colors"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Animation speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "info": "1 = slow, 10 = fast"
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Wave intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Wave & Lines"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show bottom wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height (%)",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show wave lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity (%)",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Number of lines",
+      "min": 5,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section Title"
+    }
+  ]
+}
+{% endschema %}

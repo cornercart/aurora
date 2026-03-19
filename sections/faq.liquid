@@ -1,0 +1,387 @@
+{%- liquid
+  assign bg_color = section.settings.bg_color | default: '#F5F7FA'
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign border_color = section.settings.border_color | default: '#E5E7EB'
+  assign max_width = section.settings.max_width | default: '720'
+-%}
+
+<section
+  class="py-16 md:py-24 relative overflow-hidden"
+  {{ section.shopify_attributes }}
+>
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="flex flex-col items-center justify-center max-w-[540px] mx-auto mb-12 text-center">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="border rounded-lg py-1 px-4 text-sm font-medium mb-5" style="border-color: {{ text_color }}15; color: {{ text_color }};">
+            {{ section.settings.eyebrow }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight" style="color: {{ text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="mt-4 text-base" style="color: {{ muted_color }};">
+            {{ section.settings.subheading }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="mx-auto" style="max-width: {{ max_width }}px;">
+      {%- for block in section.blocks -%}
+        <details
+          class="faq-item group border-b"
+          style="border-color: {{ border_color }};"
+          {{ block.shopify_attributes }}
+        >
+          <summary
+            class="flex items-center justify-between gap-4 py-5 cursor-pointer list-none select-none font-heading font-semibold text-base md:text-lg transition-colors hover:opacity-80"
+            style="color: {{ text_color }};"
+          >
+            <span>{{ block.settings.question }}</span>
+            <svg class="shrink-0 w-5 h-5 transition-transform duration-300 group-open:rotate-45" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="10" y1="4" x2="10" y2="16"/>
+              <line x1="4" y1="10" x2="16" y2="10"/>
+            </svg>
+          </summary>
+          <div class="pb-5 pr-10 text-base leading-relaxed" style="color: {{ muted_color }};">
+            {{ block.settings.answer }}
+          </div>
+        </details>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{%- comment -%} FAQ Structured Data for SEO & AI crawlers {%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ block.settings.answer | strip_html | json }}
+            }
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+<style>
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::marker { display: none; content: ''; }
+</style>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "class": "faq-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "FAQ"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Everything you need to know about CornerCart."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content max width (px)",
+      "min": 500,
+      "max": 1000,
+      "step": 20,
+      "default": 720
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F7FA",
+      "info": "Used when gradient is disabled"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle (degrees)",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Animation speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "info": "1 = slow, 10 = fast"
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Wave intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show bottom wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height (%)",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show wave lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity (%)",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Number of lines",
+      "min": 5,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Answer text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#E5E7EB"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is CornerCart?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>CornerCart is a conversion-optimized cart drawer for Shopify that helps you increase average order value with upsells, cross-sells, and smart product recommendations.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "What is CornerCart?",
+            "answer": "<p>CornerCart is a conversion-optimized cart drawer for Shopify that helps you increase average order value with upsells, cross-sells, and smart product recommendations.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How do I install CornerCart?",
+            "answer": "<p>Simply install CornerCart from the Shopify App Store and follow the one-click setup. No coding required — it works with any Shopify theme out of the box.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is there a free plan?",
+            "answer": "<p>Yes! CornerCart offers a generous free plan that includes core cart drawer features. You can upgrade anytime to unlock advanced upsell and analytics features.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Will CornerCart slow down my store?",
+            "answer": "<p>Not at all. CornerCart is built with performance in mind — it loads asynchronously and has zero impact on your store's page speed scores.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I customize the look and feel?",
+            "answer": "<p>Absolutely. CornerCart offers extensive customization options including colors, fonts, layout, and positioning to match your brand perfectly.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

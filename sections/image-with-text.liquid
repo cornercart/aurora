@@ -1,0 +1,401 @@
+{%- liquid
+  assign section_id = section.id
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+  assign layout = section.settings.layout | default: 'image-left'
+  assign image_style = section.settings.image_style | default: 'rounded'
+  assign vertical_align = section.settings.vertical_align | default: 'center'
+-%}
+
+<section
+  class="relative overflow-hidden py-16 md:py-24"
+  {{ section.shopify_attributes }}
+  id="iwt-{{ section_id }}"
+>
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-{{ vertical_align }}">
+
+      {%- comment -%} Image column {%- endcomment -%}
+      <div class="{% if layout == 'image-right' %}lg:order-2{% endif %}">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag:
+            class: 'w-full h-auto object-cover',
+            loading: 'lazy',
+            widths: '400,600,800,1200',
+            style: image_style | replace: 'rounded', 'border-radius:16px;' | replace: 'circle', 'border-radius:50%;' | replace: 'none', ''
+          }}
+        {%- else -%}
+          <div class="w-full aspect-[4/3] flex items-center justify-center {% if image_style == 'rounded' %}rounded-2xl{% endif %}" style="background: {{ text_color }}05;">
+            <span class="text-sm" style="color: {{ muted_color }};">Image placeholder</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Text column {%- endcomment -%}
+      <div class="flex flex-col gap-5 {% if layout == 'image-right' %}lg:order-1{% endif %}">
+
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="inline-block text-sm font-semibold tracking-wide uppercase" style="color: {{ accent_color }};">
+            {{ section.settings.eyebrow }}
+          </span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
+            style="
+              background: linear-gradient(179.2deg, rgb(13, 19, 64) 14.7%, rgb(80, 67, 111) 85.8%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
+          >
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subtitle != blank -%}
+          <p class="text-lg md:text-xl font-medium leading-snug" style="color: {{ text_color }};">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="text-base leading-relaxed" style="color: {{ muted_color }};">
+            {{ section.settings.description }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.primary_cta_label != blank or section.settings.secondary_cta_label != blank -%}
+          <div class="flex flex-wrap items-center gap-4 mt-2">
+            {%- if section.settings.primary_cta_label != blank -%}
+              <a
+                href="{{ section.settings.primary_cta_url }}"
+                class="inline-flex items-center gap-2 font-heading font-semibold text-base py-3.5 px-7 btn-primary"
+              >
+                {{ section.settings.primary_cta_label }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.secondary_cta_label != blank -%}
+              <a
+                href="{{ section.settings.secondary_cta_url }}"
+                class="inline-flex items-center gap-2 font-heading font-semibold text-base py-3.5 px-7 btn-secondary"
+              >
+                {{ section.settings.secondary_cta_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image with Text",
+  "tag": "div",
+  "class": "image-with-text-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image position",
+      "options": [
+        { "value": "image-left", "label": "Image left" },
+        { "value": "image-right", "label": "Image right" }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "select",
+      "id": "vertical_align",
+      "label": "Vertical alignment",
+      "options": [
+        { "value": "start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_style",
+      "label": "Image style",
+      "options": [
+        { "value": "rounded", "label": "Rounded" },
+        { "value": "none", "label": "No rounding" }
+      ],
+      "default": "rounded"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "About Us"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for Shopify merchants who care about growth"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We help thousands of Shopify stores increase their average order value with a beautiful, conversion-optimized cart experience.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_label",
+      "label": "Primary button label",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "primary_cta_url",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Secondary button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Gradient speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Gradient intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Line count",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with Text"
+    }
+  ]
+}
+{% endschema %}

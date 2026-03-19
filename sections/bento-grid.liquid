@@ -1,0 +1,505 @@
+{%- liquid
+  assign section_id = section.id
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+  assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign card_border = section.settings.card_border | default: '#e5e7eb'
+  assign glow_color = section.settings.glow_color | default: '#1D4AFE'
+  assign glow_corner = section.settings.glow_corner | default: 'top-left'
+
+  case glow_corner
+    when 'top-left'
+      assign glow_origin = '0% 0%'
+    when 'top-right'
+      assign glow_origin = '100% 0%'
+    when 'bottom-left'
+      assign glow_origin = '0% 100%'
+    when 'bottom-right'
+      assign glow_origin = '100% 100%'
+    else
+      assign glow_origin = '0% 0%'
+  endcase
+-%}
+
+<section
+  class="relative overflow-hidden py-16 md:py-24"
+  {{ section.shopify_attributes }}
+  id="bg-{{ section_id }}"
+>
+  {% render 'section-background',
+    bg_type: section.settings.bg_type,
+    bg_color: section.settings.bg_color,
+    linear_color_1: section.settings.linear_color_1,
+    linear_color_2: section.settings.linear_color_2,
+    linear_angle: section.settings.linear_angle,
+    gradient_color_1: section.settings.gradient_color_1,
+    gradient_color_2: section.settings.gradient_color_2,
+    gradient_color_3: section.settings.gradient_color_3,
+    gradient_color_4: section.settings.gradient_color_4,
+    gradient_color_5: section.settings.gradient_color_5,
+    gradient_speed: section.settings.gradient_speed,
+    gradient_intensity: section.settings.gradient_intensity,
+    show_wave: section.settings.show_wave,
+    wave_color: section.settings.wave_color,
+    wave_height: section.settings.wave_height,
+    show_lines: section.settings.show_lines,
+    line_color: section.settings.line_color,
+    line_opacity: section.settings.line_opacity,
+    line_count: section.settings.line_count,
+    line_thickness: section.settings.line_thickness
+  %}
+
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="max-w-2xl mx-auto text-center mb-10 md:mb-16">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="text-sm font-semibold uppercase tracking-wide mb-3" style="color: {{ accent_color }};">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight" style="color: {{ text_color }};">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="mt-4 text-base md:text-lg leading-relaxed" style="color: {{ muted_color }};">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="bento-grid grid gap-4 lg:grid-cols-3 lg:grid-rows-2">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign span = block.settings.span | default: 'single'
+          assign img_position = block.settings.image_position | default: 'bottom'
+
+          case span
+            when 'tall-left'
+              assign grid_class = 'lg:row-span-2 lg:col-start-1'
+            when 'tall-right'
+              assign grid_class = 'lg:row-span-2 lg:col-start-3'
+            when 'single'
+              assign grid_class = ''
+          endcase
+        -%}
+
+        <div
+          class="bento-card group relative {{ grid_class }}"
+          {{ block.shopify_attributes }}
+          style="--glow-color: {{ glow_color }}; --glow-origin: {{ glow_origin }};"
+        >
+          {%- comment -%} Card background {%- endcomment -%}
+          <div class="absolute inset-[1px] rounded-2xl {% if span == 'tall-left' %}lg:rounded-l-[2rem]{% elsif span == 'tall-right' %}lg:rounded-r-[2rem]{% endif %}" style="background: {{ card_bg }};"></div>
+
+          {%- comment -%} Pulsating glow on hover {%- endcomment -%}
+          <div class="bento-glow pointer-events-none absolute inset-0 rounded-2xl {% if span == 'tall-left' %}lg:rounded-l-[2rem]{% elsif span == 'tall-right' %}lg:rounded-r-[2rem]{% endif %} opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden">
+            <div class="absolute inset-0 bento-glow-pulse" style="background: radial-gradient(circle at var(--glow-origin), {{ glow_color }}25 0%, {{ glow_color }}08 35%, transparent 65%);"></div>
+          </div>
+
+          {%- comment -%} Card content {%- endcomment -%}
+          <div class="relative flex h-full flex-col overflow-hidden rounded-2xl {% if span == 'tall-left' %}lg:rounded-l-[2rem]{% elsif span == 'tall-right' %}lg:rounded-r-[2rem]{% endif %} min-h-[280px] {% if span contains 'tall' %}lg:min-h-0{% endif %}">
+
+            {%- if img_position == 'top' and block.settings.image != blank -%}
+              <div class="flex flex-1 items-center justify-center px-6 pt-6 pb-2">
+                {{ block.settings.image | image_url: width: 800 | image_tag:
+                  class: 'w-full max-w-sm object-contain',
+                  loading: 'lazy',
+                  widths: '400,600,800'
+                }}
+              </div>
+            {%- endif -%}
+
+            <div class="px-8 {% if img_position == 'top' %}pb-8{% else %}pt-8 pb-3{% endif %} sm:px-10 {% if img_position == 'top' %}sm:pb-10{% else %}sm:pt-10{% endif %}">
+              {%- if block.settings.icon != blank -%}
+                <span class="inline-block mb-3" style="color: {{ accent_color }};">
+                  {% render 'polaris-icon', icon: block.settings.icon, size: 24, color: 'currentColor' %}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <p class="text-lg font-semibold tracking-tight" style="color: {{ text_color }};">{{ block.settings.title }}</p>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="mt-2 text-sm leading-relaxed" style="color: {{ muted_color }};">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+
+            {%- if img_position == 'bottom' and block.settings.image != blank -%}
+              <div class="flex flex-1 items-end justify-center px-6 pb-0 overflow-hidden">
+                {{ block.settings.image | image_url: width: 800 | image_tag:
+                  class: 'w-full object-cover object-top rounded-t-xl',
+                  loading: 'lazy',
+                  widths: '400,600,800'
+                }}
+              </div>
+            {%- endif -%}
+
+            {%- if img_position == 'fill' and block.settings.image != blank -%}
+              <div class="flex flex-1 items-center justify-center p-6">
+                {{ block.settings.image | image_url: width: 800 | image_tag:
+                  class: 'w-full h-full object-contain',
+                  loading: 'lazy',
+                  widths: '400,600,800'
+                }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.image == blank and img_position != 'top' -%}
+              <div class="flex-1"></div>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%} Border overlay {%- endcomment -%}
+          <div class="pointer-events-none absolute inset-[1px] rounded-2xl {% if span == 'tall-left' %}lg:rounded-l-[2rem]{% elsif span == 'tall-right' %}lg:rounded-r-[2rem]{% endif %} shadow-sm" style="outline: 1px solid {{ card_border }};"></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes bento-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.4); opacity: 1; }
+  }
+
+  .bento-glow-pulse {
+    animation: bento-pulse 2.5s ease-in-out infinite;
+    transform-origin: var(--glow-origin);
+  }
+
+  .bento-card:not(:hover) .bento-glow-pulse {
+    animation: none;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Bento Grid",
+  "tag": "div",
+  "class": "bento-grid-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Features"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything you need to boost sales"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "A powerful toolkit designed to increase your AOV and delight your customers."
+    },
+    {
+      "type": "header",
+      "content": "Card Style"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border color",
+      "default": "#e5e7eb"
+    },
+    {
+      "type": "header",
+      "content": "Hover Glow"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "select",
+      "id": "glow_corner",
+      "label": "Glow origin corner",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "top-left"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "linear", "label": "Linear gradient" },
+        { "value": "animated", "label": "Animated gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_1",
+      "label": "Linear gradient start",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "linear_color_2",
+      "label": "Linear gradient end",
+      "default": "#6C3AED"
+    },
+    {
+      "type": "range",
+      "id": "linear_angle",
+      "label": "Gradient angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "default": 180
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#CFD4F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#DECFF2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#3B82FF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_speed",
+      "label": "Gradient speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gradient_intensity",
+      "label": "Gradient intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show wave",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show lines",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Line count",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Bento Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "span",
+          "label": "Card size",
+          "options": [
+            { "value": "single", "label": "Single (1x1)" },
+            { "value": "tall-left", "label": "Tall left (1x2)" },
+            { "value": "tall-right", "label": "Tall right (1x2)" }
+          ],
+          "default": "single"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon name",
+          "default": "star",
+          "info": "Polaris icon name (e.g. cart, rocket, analytics, bolt, shield, chat, users, globe, star, order, product, discount, gift-card). See all: polaris.shopify.com/icons"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "A short description of this feature and why it matters."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            { "value": "bottom", "label": "Below text" },
+            { "value": "top", "label": "Above text" },
+            { "value": "fill", "label": "Fill remaining space" }
+          ],
+          "default": "bottom"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bento Grid",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "span": "tall-left",
+            "icon": "cart",
+            "title": "Smart Cart Drawer",
+            "description": "A beautiful slide-out cart with real-time updates and a seamless checkout experience."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "icon": "rocket",
+            "title": "Upsell Engine",
+            "description": "Intelligent product recommendations that boost your average order value."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "icon": "shield",
+            "title": "Fully Secure",
+            "description": "Enterprise-grade security with zero impact on your store's performance."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "span": "tall-right",
+            "icon": "analytics",
+            "title": "Analytics Dashboard",
+            "description": "Track cart performance, conversion rates, and revenue impact in real time."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

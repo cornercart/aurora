@@ -1,0 +1,63 @@
+{% comment %}
+  Renders section background: solid color, linear gradient, or animated gradient.
+
+  Usage:
+    {% render 'section-background',
+      bg_type: section.settings.bg_type,
+      bg_color: section.settings.bg_color,
+      linear_color_1: section.settings.linear_color_1,
+      linear_color_2: section.settings.linear_color_2,
+      linear_angle: section.settings.linear_angle,
+      gradient_color_1: section.settings.gradient_color_1,
+      gradient_color_2: section.settings.gradient_color_2,
+      gradient_color_3: section.settings.gradient_color_3,
+      gradient_color_4: section.settings.gradient_color_4,
+      gradient_color_5: section.settings.gradient_color_5,
+      gradient_speed: section.settings.gradient_speed,
+      gradient_intensity: section.settings.gradient_intensity,
+      show_wave: section.settings.show_wave,
+      wave_color: section.settings.wave_color,
+      wave_height: section.settings.wave_height,
+      show_lines: section.settings.show_lines,
+      line_color: section.settings.line_color,
+      line_opacity: section.settings.line_opacity,
+      line_count: section.settings.line_count,
+      line_thickness: section.settings.line_thickness
+    %}
+{% endcomment %}
+
+{%- case bg_type -%}
+
+  {%- when 'animated' -%}
+    {% render 'gradient-background',
+      color_1: gradient_color_1,
+      color_2: gradient_color_2,
+      color_3: gradient_color_3,
+      color_4: gradient_color_4,
+      color_5: gradient_color_5,
+      speed: gradient_speed,
+      intensity: gradient_intensity,
+      show_wave: show_wave,
+      wave_color: wave_color,
+      wave_height: wave_height,
+      show_lines: show_lines,
+      line_color: line_color,
+      line_opacity: line_opacity,
+      line_count: line_count,
+      line_thickness: line_thickness
+    %}
+
+  {%- when 'linear' -%}
+    {%- liquid
+      assign lc1 = linear_color_1 | default: '#1D4AFE'
+      assign lc2 = linear_color_2 | default: '#6C3AED'
+      assign la = linear_angle | default: 180
+    -%}
+    <div class="absolute inset-0" style="background: linear-gradient({{ la }}deg, {{ lc1 }}, {{ lc2 }});"></div>
+
+  {%- else -%}
+    {%- if bg_color != blank -%}
+      <div class="absolute inset-0" style="background-color: {{ bg_color }};"></div>
+    {%- endif -%}
+
+{%- endcase -%}
