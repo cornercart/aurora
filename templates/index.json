@@ -1,55 +1,106 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "hero": {
+    "hero_Kjmb7H": {
       "type": "hero",
-      "settings": {
-        "min_height": "min-h-[80vh]",
-        "enable_gradient": true,
-        "gradient_color_1": "#1D4AFE",
-        "gradient_color_2": "#6C3AED",
-        "gradient_color_3": "#0D1340",
-        "gradient_color_4": "#3B82F6",
-        "gradient_color_5": "#112F54",
-        "gradient_speed": 3,
-        "gradient_intensity": 4,
-        "show_lines": true,
-        "line_color": "#ffffff",
-        "line_opacity": 15,
-        "line_count": 30,
-        "line_thickness": 3,
-        "show_wave": true,
-        "wave_color": "#ffffff",
-        "wave_height": 20
-      },
       "blocks": {
-        "hero_content": {
+        "logo_cloud_4rKiiL": {
+          "type": "logo_cloud",
+          "settings": {
+            "heading": "Trusted by 10,000+ Shopify merchants",
+            "scroll_speed": 30,
+            "logo_max_width": 120,
+            "gap": 56,
+            "row_gap": 20
+          }
+        },
+        "center_aligned_exRHUV": {
           "type": "center_aligned",
           "settings": {
             "text_light": true,
             "eyebrow": "Introducing CornerCart",
             "heading": "The smarter way to boost your Shopify sales",
             "subheading": "A beautiful, conversion-optimized cart drawer that helps you increase AOV with upsells, cross-sells, and smart recommendations.",
-            "button_label": "Get Started Free"
+            "button_label": "Get Started Free",
+            "button_url": "",
+            "secondary_button_label": "",
+            "secondary_button_url": ""
           }
         }
       },
-      "block_order": ["hero_content"]
+      "block_order": [
+        "logo_cloud_4rKiiL",
+        "center_aligned_exRHUV"
+      ],
+      "name": "Hero",
+      "settings": {
+        "min_height": "min-h-[60vh]",
+        "bg_type": "animated",
+        "bg_color": "#0D1340",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#ffe02d",
+        "gradient_color_3": "#bfa7f7",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_lines": true,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 80,
+        "line_thickness": 1,
+        "show_wave": true,
+        "wave_color": "#ffffff",
+        "wave_height": 20
+      }
     },
     "logo_cloud": {
       "type": "logo-cloud",
       "settings": {
         "heading": "Trusted by 10,000+ Shopify merchants",
         "heading_center": true,
-        "transparent_bg": false,
+        "bg_type": "solid",
+        "bg_color": "#f5f7fa",
+        "linear_color_1": "#1d4afe",
+        "linear_color_2": "#6c3aed",
+        "linear_angle": 180,
+        "gradient_color_1": "#1d4afe",
+        "gradient_color_2": "#cfd4f2",
+        "gradient_color_3": "#decff2",
+        "gradient_color_4": "#3b82ff",
+        "gradient_color_5": "#ffffff",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3,
         "text_light": false,
+        "disable_fade": false,
         "scroll_speed": 30,
         "logo_height": 32,
         "gap": 64,
         "row_gap": 24
-      },
-      "blocks": {},
-      "block_order": []
+      }
     }
   },
-  "order": ["hero", "logo_cloud"]
+  "order": [
+    "hero_Kjmb7H",
+    "logo_cloud"
+  ]
 }
