@@ -11,7 +11,15 @@
         "gradient_color_4": "#3B82F6",
         "gradient_color_5": "#112F54",
         "gradient_speed": 3,
-        "gradient_intensity": 4
+        "gradient_intensity": 4,
+        "show_lines": true,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3,
+        "show_wave": true,
+        "wave_color": "#ffffff",
+        "wave_height": 20
       },
       "blocks": {
         "hero_content": {

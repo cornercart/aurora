@@ -1,10 +1,11 @@
 {%- liquid
   assign has_gradient = section.settings.enable_gradient
   assign min_h = section.settings.min_height
+  assign logo_block = section.blocks | where: 'type', 'logo_cloud' | first
 -%}
 
 <section
-  class="relative overflow-hidden flex items-center {{ min_h }}"
+  class="relative overflow-hidden flex flex-col justify-center {{ min_h }}"
   {{ section.shopify_attributes }}
 >
   {%- if has_gradient -%}
@@ -15,7 +16,15 @@
       color_4: section.settings.gradient_color_4,
       color_5: section.settings.gradient_color_5,
       speed: section.settings.gradient_speed,
-      intensity: section.settings.gradient_intensity
+      intensity: section.settings.gradient_intensity,
+      show_wave: section.settings.show_wave,
+      wave_color: section.settings.wave_color,
+      wave_height: section.settings.wave_height,
+      show_lines: section.settings.show_lines,
+      line_color: section.settings.line_color,
+      line_opacity: section.settings.line_opacity,
+      line_count: section.settings.line_count,
+      line_thickness: section.settings.line_thickness
     %}
   {%- endif -%}
 
@@ -23,26 +32,35 @@
     <div class="absolute inset-0" style="background-color: {{ section.settings.bg_color }};"></div>
   {%- endif -%}
 
-  <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+  <!-- Hero content — extra top padding to clear the floating header -->
+  <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 pt-28 md:pt-32 pb-16 md:pb-24 flex-1 flex items-center">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
 
         {%- when 'center_aligned' -%}
-          <div class="flex flex-col items-center text-center max-w-3xl mx-auto gap-6" {{ block.shopify_attributes }}>
+          <div class="flex flex-col items-center text-center max-w-3xl mx-auto gap-6 w-full" {{ block.shopify_attributes }}>
             {%- if block.settings.eyebrow != blank -%}
-              <span class="inline-block text-sm font-semibold tracking-wide uppercase {% if block.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %}">
+              <span class="inline-block text-sm font-semibold tracking-wide uppercase text-[#112f54]">
                 {{ block.settings.eyebrow }}
               </span>
             {%- endif -%}
 
             {%- if block.settings.heading != blank -%}
-              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight {% if block.settings.text_light %}text-white{% else %}text-cc-dark{% endif %}">
+              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight"
+                style="
+                  background: linear-gradient(179.2deg, rgb(13, 19, 64) 14.7%, rgb(80, 67, 111) 85.8%);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  text-shadow: 0px 4px 9px rgba(10, 7, 50, 0.15);
+                "
+              >
                 {{ block.settings.heading }}
               </h1>
             {%- endif -%}
 
             {%- if block.settings.subheading != blank -%}
-              <p class="text-lg md:text-xl leading-relaxed max-w-2xl {% if block.settings.text_light %}text-white/80{% else %}text-cc-muted{% endif %}">
+              <p class="text-lg md:text-xl leading-relaxed max-w-2xl text-[#112f54]">
                 {{ block.settings.subheading }}
               </p>
             {%- endif -%}
@@ -51,14 +69,14 @@
               <div class="flex flex-wrap items-center justify-center gap-4 mt-2">
                 <a
                   href="{{ block.settings.button_url }}"
-                  class="inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+                  class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-primary"
                 >
                   {{ block.settings.button_label }}
                 </a>
                 {%- if block.settings.secondary_button_label != blank -%}
                   <a
                     href="{{ block.settings.secondary_button_url }}"
-                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 rounded-pill border {% if block.settings.text_light %}border-white/30 text-white hover:bg-white/10{% else %}border-cc-navy/20 text-cc-navy hover:bg-cc-light{% endif %} transition-colors"
+                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-secondary"
                   >
                     {{ block.settings.secondary_button_label }}
                   </a>
@@ -68,10 +86,10 @@
           </div>
 
         {%- when 'left_with_image' -%}
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center" {{ block.shopify_attributes }}>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full" {{ block.shopify_attributes }}>
             <div class="flex flex-col gap-6">
               {%- if block.settings.eyebrow != blank -%}
-                <span class="inline-block text-sm font-semibold tracking-wide uppercase {% if block.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %}">
+                <span class="inline-block text-sm font-semibold tracking-wide uppercase text-[#112f54]">
                   {{ block.settings.eyebrow }}
                 </span>
               {%- endif -%}
@@ -83,7 +101,7 @@
               {%- endif -%}
 
               {%- if block.settings.subheading != blank -%}
-                <p class="text-lg md:text-xl leading-relaxed {% if block.settings.text_light %}text-white/80{% else %}text-cc-muted{% endif %}">
+                <p class="text-lg md:text-xl leading-relaxed text-[#112f54]">
                   {{ block.settings.subheading }}
                 </p>
               {%- endif -%}
@@ -92,14 +110,14 @@
                 <div class="flex flex-wrap items-center gap-4 mt-2">
                   <a
                     href="{{ block.settings.button_url }}"
-                    class="inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-primary"
                   >
                     {{ block.settings.button_label }}
                   </a>
                   {%- if block.settings.secondary_button_label != blank -%}
                     <a
                       href="{{ block.settings.secondary_button_url }}"
-                      class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 rounded-pill border {% if block.settings.text_light %}border-white/30 text-white hover:bg-white/10{% else %}border-cc-navy/20 text-cc-navy hover:bg-cc-light{% endif %} transition-colors"
+                      class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-secondary"
                     >
                       {{ block.settings.secondary_button_label }}
                     </a>
@@ -124,21 +142,29 @@
           </div>
 
         {%- when 'left_aligned' -%}
-          <div class="flex flex-col gap-6 max-w-2xl" {{ block.shopify_attributes }}>
+          <div class="flex flex-col gap-6 max-w-2xl w-full" {{ block.shopify_attributes }}>
             {%- if block.settings.eyebrow != blank -%}
-              <span class="inline-block text-sm font-semibold tracking-wide uppercase {% if block.settings.text_light %}text-white/70{% else %}text-cc-muted{% endif %}">
+              <span class="inline-block text-sm font-semibold tracking-wide uppercase text-[#112f54]">
                 {{ block.settings.eyebrow }}
               </span>
             {%- endif -%}
 
             {%- if block.settings.heading != blank -%}
-              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight {% if block.settings.text_light %}text-white{% else %}text-cc-dark{% endif %}">
+              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight"
+                style="
+                  background: linear-gradient(179.2deg, rgb(13, 19, 64) 14.7%, rgb(80, 67, 111) 85.8%);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  text-shadow: 0px 4px 9px rgba(10, 7, 50, 0.15);
+                "
+              >
                 {{ block.settings.heading }}
               </h1>
             {%- endif -%}
 
             {%- if block.settings.subheading != blank -%}
-              <p class="text-lg md:text-xl leading-relaxed {% if block.settings.text_light %}text-white/80{% else %}text-cc-muted{% endif %}">
+              <p class="text-lg md:text-xl leading-relaxed text-[#112f54]">
                 {{ block.settings.subheading }}
               </p>
             {%- endif -%}
@@ -147,14 +173,14 @@
               <div class="flex flex-wrap items-center gap-4 mt-2">
                 <a
                   href="{{ block.settings.button_url }}"
-                  class="inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-base py-4 px-8 rounded-pill hover:opacity-90 transition-opacity"
+                  class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-primary"
                 >
                   {{ block.settings.button_label }}
                 </a>
                 {%- if block.settings.secondary_button_label != blank -%}
                   <a
                     href="{{ block.settings.secondary_button_url }}"
-                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 rounded-pill border {% if block.settings.text_light %}border-white/30 text-white hover:bg-white/10{% else %}border-cc-navy/20 text-cc-navy hover:bg-cc-light{% endif %} transition-colors"
+                    class="inline-flex items-center gap-2 font-heading font-semibold text-base py-4 px-8 btn-secondary"
                   >
                     {{ block.settings.secondary_button_label }}
                   </a>
@@ -166,7 +192,181 @@
       {%- endcase -%}
     {%- endfor -%}
   </div>
+
+  {%- comment -%} Logo Cloud block {%- endcomment -%}
+  {%- if logo_block -%}
+    {%- liquid
+      assign lc = logo_block.settings
+      assign scroll_speed = lc.scroll_speed | default: 30
+      assign l_max_w = lc.logo_max_width | default: 120
+      assign l_gap = lc.gap | default: 56
+      assign l_row_gap = lc.row_gap | default: 20
+    -%}
+    <div class="relative z-10 w-full pb-10 md:pb-16" {{ logo_block.shopify_attributes }}>
+      {%- if lc.heading != blank -%}
+        <div class="max-w-[1400px] mx-auto px-6 mb-6 text-center">
+          <p class="text-xl font-heading font-semibold"
+            style="
+              background: linear-gradient(97.9deg, rgb(13, 19, 64) 29.5%, rgb(65, 94, 133) 70.4%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
+          >{{ lc.heading }}</p>
+        </div>
+      {%- endif -%}
+
+      <div class="flex flex-col" style="gap: {{ l_row_gap }}px;">
+
+        {%- comment -%} Build Row 1 logos array {%- endcomment -%}
+        {%- liquid
+          assign row1_imgs = ''
+          if lc.row1_logo_1 != blank
+            assign row1_imgs = row1_imgs | append: '1,'
+          endif
+          if lc.row1_logo_2 != blank
+            assign row1_imgs = row1_imgs | append: '2,'
+          endif
+          if lc.row1_logo_3 != blank
+            assign row1_imgs = row1_imgs | append: '3,'
+          endif
+          if lc.row1_logo_4 != blank
+            assign row1_imgs = row1_imgs | append: '4,'
+          endif
+          if lc.row1_logo_5 != blank
+            assign row1_imgs = row1_imgs | append: '5,'
+          endif
+          if lc.row1_logo_6 != blank
+            assign row1_imgs = row1_imgs | append: '6,'
+          endif
+          if lc.row1_logo_7 != blank
+            assign row1_imgs = row1_imgs | append: '7,'
+          endif
+          if lc.row1_logo_8 != blank
+            assign row1_imgs = row1_imgs | append: '8,'
+          endif
+        -%}
+
+        {%- if row1_imgs != '' -%}
+          <div class="overflow-hidden logo-cloud-fade" aria-hidden="true">
+            <div class="logo-scroll-track flex items-center w-max" style="gap: {{ l_gap }}px; animation: logo-scroll-left {{ scroll_speed }}s linear infinite;">
+              {%- for pass in (1..6) -%}
+                {%- if lc.row1_logo_1 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_1 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_2 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_2 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_3 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_3 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_4 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_4 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_5 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_5 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_6 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_6 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_7 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_7 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row1_logo_8 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row1_logo_8 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Build Row 2 logos {%- endcomment -%}
+        {%- liquid
+          assign row2_imgs = ''
+          if lc.row2_logo_1 != blank
+            assign row2_imgs = row2_imgs | append: '1,'
+          endif
+          if lc.row2_logo_2 != blank
+            assign row2_imgs = row2_imgs | append: '2,'
+          endif
+          if lc.row2_logo_3 != blank
+            assign row2_imgs = row2_imgs | append: '3,'
+          endif
+          if lc.row2_logo_4 != blank
+            assign row2_imgs = row2_imgs | append: '4,'
+          endif
+          if lc.row2_logo_5 != blank
+            assign row2_imgs = row2_imgs | append: '5,'
+          endif
+          if lc.row2_logo_6 != blank
+            assign row2_imgs = row2_imgs | append: '6,'
+          endif
+          if lc.row2_logo_7 != blank
+            assign row2_imgs = row2_imgs | append: '7,'
+          endif
+          if lc.row2_logo_8 != blank
+            assign row2_imgs = row2_imgs | append: '8,'
+          endif
+        -%}
+
+        {%- if row2_imgs != '' -%}
+          <div class="overflow-hidden logo-cloud-fade" aria-hidden="true">
+            <div class="logo-scroll-track flex items-center w-max" style="gap: {{ l_gap }}px; animation: logo-scroll-right {{ scroll_speed }}s linear infinite;">
+              {%- for pass in (1..6) -%}
+                {%- if lc.row2_logo_1 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_1 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_2 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_2 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_3 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_3 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_4 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_4 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_5 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_5 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_6 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_6 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_7 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_7 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+                {%- if lc.row2_logo_8 != blank -%}
+                  <div class="shrink-0" style="max-width:{{ l_max_w }}px;">{{ lc.row2_logo_8 | image_url: height: 200 | image_tag: class: 'object-contain opacity-50 hover:opacity-90 transition-opacity w-full h-auto', loading: 'lazy' }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+  {%- endif -%}
 </section>
+
+<style>
+  @keyframes logo-scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-100% / 6)); }
+  }
+  @keyframes logo-scroll-right {
+    0% { transform: translateX(calc(-100% / 6)); }
+    100% { transform: translateX(0); }
+  }
+  .logo-cloud-fade {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .logo-scroll-track:hover {
+    animation-play-state: paused;
+  }
+
+</style>
 
 {% schema %}
 {
@@ -220,25 +420,25 @@
       "type": "color",
       "id": "gradient_color_2",
       "label": "Gradient color 2",
-      "default": "#6C3AED"
+      "default": "#CFD4F2"
     },
     {
       "type": "color",
       "id": "gradient_color_3",
       "label": "Gradient color 3",
-      "default": "#0D1340"
+      "default": "#DECFF2"
     },
     {
       "type": "color",
       "id": "gradient_color_4",
       "label": "Gradient color 4",
-      "default": "#3B82F6"
+      "default": "#3B82FF"
     },
     {
       "type": "color",
       "id": "gradient_color_5",
       "label": "Gradient color 5",
-      "default": "#112F54"
+      "default": "#FFFFFF"
     },
     {
       "type": "range",
@@ -247,7 +447,7 @@
       "min": 1,
       "max": 10,
       "step": 1,
-      "default": 3,
+      "default": 2,
       "info": "1 = slow, 10 = fast"
     },
     {
@@ -257,8 +457,82 @@
       "min": 1,
       "max": 10,
       "step": 1,
-      "default": 4,
+      "default": 1,
       "info": "1 = subtle, 10 = dramatic"
+    },
+    {
+      "type": "header",
+      "content": "Wave Lines"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lines",
+      "label": "Show wave lines",
+      "default": true,
+      "info": "Horizontal lines that follow the wave surface"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity (%)",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 15,
+      "info": "How visible the lines are"
+    },
+    {
+      "type": "range",
+      "id": "line_count",
+      "label": "Number of lines",
+      "min": 5,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "info": "1 = thin, 10 = thick"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Wave Transition"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wave",
+      "label": "Show animated wave",
+      "default": true,
+      "info": "Smooth animated transition to the next section"
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave color",
+      "default": "#ffffff",
+      "info": "Match this to the next section's background"
+    },
+    {
+      "type": "range",
+      "id": "wave_height",
+      "label": "Wave height (%)",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 20,
+      "info": "Percentage of the hero section height"
     }
   ],
   "blocks": [
@@ -416,6 +690,148 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "logo_cloud",
+      "name": "Logo Cloud",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Trusted by 10,000+ Shopify merchants"
+        },
+        {
+          "type": "header",
+          "content": "Scroll Settings"
+        },
+        {
+          "type": "range",
+          "id": "scroll_speed",
+          "label": "Scroll duration (seconds)",
+          "min": 10,
+          "max": 80,
+          "step": 5,
+          "default": 30,
+          "info": "Lower = faster"
+        },
+        {
+          "type": "range",
+          "id": "logo_max_width",
+          "label": "Logo max width (px)",
+          "min": 40,
+          "max": 200,
+          "step": 10,
+          "default": 120
+        },
+        {
+          "type": "range",
+          "id": "gap",
+          "label": "Gap between logos (px)",
+          "min": 24,
+          "max": 120,
+          "step": 8,
+          "default": 56
+        },
+        {
+          "type": "range",
+          "id": "row_gap",
+          "label": "Gap between rows (px)",
+          "min": 8,
+          "max": 40,
+          "step": 4,
+          "default": 20
+        },
+        {
+          "type": "header",
+          "content": "Row 1 — scrolls left"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_1",
+          "label": "Logo 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_2",
+          "label": "Logo 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_3",
+          "label": "Logo 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_4",
+          "label": "Logo 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_5",
+          "label": "Logo 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_6",
+          "label": "Logo 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_7",
+          "label": "Logo 7"
+        },
+        {
+          "type": "image_picker",
+          "id": "row1_logo_8",
+          "label": "Logo 8"
+        },
+        {
+          "type": "header",
+          "content": "Row 2 — scrolls right"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_1",
+          "label": "Logo 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_2",
+          "label": "Logo 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_3",
+          "label": "Logo 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_4",
+          "label": "Logo 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_5",
+          "label": "Logo 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_6",
+          "label": "Logo 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_7",
+          "label": "Logo 7"
+        },
+        {
+          "type": "image_picker",
+          "id": "row2_logo_8",
+          "label": "Logo 8"
         }
       ]
     }

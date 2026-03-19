@@ -1,0 +1,306 @@
+{%- liquid
+  assign bg_color = section.settings.bg_color | default: '#F5F7FA'
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+  assign section_id = section.id
+  assign total = section.blocks.size
+-%}
+
+<section
+  class="py-16 md:py-24"
+  style="background-color: {{ bg_color }};"
+  {{ section.shopify_attributes }}
+  id="testimonial-{{ section_id }}"
+>
+  <div class="max-w-[1400px] mx-auto px-6">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="mb-12 md:mb-16 {% if section.settings.heading_align == 'center' %}text-center{% endif %}">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="inline-block text-sm font-semibold tracking-wide uppercase mb-3" style="color: {{ accent_color }};">
+            {{ section.settings.eyebrow }}
+          </span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold" style="color: {{ text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      {%- comment -%} Left — Stacked card images {%- endcomment -%}
+      <div class="relative flex justify-center lg:justify-start">
+        <div class="testimonial-card-stack relative" style="width: 380px; max-width: 100%; aspect-ratio: 3/4;">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign offset = forloop.index0
+              assign is_current = false
+              if forloop.first
+                assign is_current = true
+              endif
+            -%}
+            <div
+              class="testimonial-card absolute inset-0 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 ease-out"
+              data-card-index="{{ forloop.index0 }}"
+              style="
+                z-index: {{ total | minus: offset }};
+                transform: rotate({{ offset | times: -3 }}deg) translateY({{ offset | times: 8 }}px);
+                opacity: {% if offset > 2 %}0{% else %}1{% endif %};
+              "
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag:
+                  class: 'w-full h-full object-cover',
+                  loading: 'lazy',
+                  widths: '400,600,800'
+                }}
+              {%- else -%}
+                <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ accent_color }}20, {{ accent_color }}05);">
+                  <span class="text-sm" style="color: {{ muted_color }};">Photo</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment -%} Right — Text content {%- endcomment -%}
+      <div class="flex flex-col justify-center">
+        {%- for block in section.blocks -%}
+          <div
+            class="testimonial-content {% if forloop.first %}active{% endif %}"
+            data-content-index="{{ forloop.index0 }}"
+          >
+            <div class="flex flex-col gap-6">
+              {%- if block.settings.author_name != blank -%}
+                <div>
+                  <h3 class="font-heading text-2xl md:text-3xl font-bold" style="color: {{ text_color }};">
+                    {{ block.settings.author_name }}
+                  </h3>
+                  {%- if block.settings.author_title != blank -%}
+                    <p class="text-base mt-1" style="color: {{ muted_color }};">
+                      {{ block.settings.author_title }}
+                    </p>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.quote != blank -%}
+                <blockquote class="text-lg md:text-xl leading-relaxed" style="color: {{ text_color }};">
+                  "{{ block.settings.quote }}"
+                </blockquote>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+
+        {%- comment -%} Navigation arrows {%- endcomment -%}
+        {%- if total > 1 -%}
+          <div class="flex items-center gap-3 mt-10">
+            <button
+              class="testimonial-nav-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+              style="background-color: {{ text_color }}08; color: {{ text_color }};"
+              data-nav="prev"
+              aria-label="Previous testimonial"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7-7l-7 7 7 7"/>
+              </svg>
+            </button>
+            <button
+              class="testimonial-nav-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+              style="background-color: {{ text_color }}08; color: {{ text_color }};"
+              data-nav="next"
+              aria-label="Next testimonial"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonial-content {
+    display: none;
+    animation: testimFadeIn 0.4s ease-out;
+  }
+  .testimonial-content.active {
+    display: block;
+  }
+  @keyframes testimFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .testimonial-nav-btn:hover {
+    background-color: rgba(0,0,0,0.08) !important;
+  }
+</style>
+
+<script>
+  (function() {
+    const section = document.getElementById('testimonial-{{ section_id }}');
+    if (!section) return;
+
+    const cards = Array.from(section.querySelectorAll('[data-card-index]'));
+    const contents = Array.from(section.querySelectorAll('[data-content-index]'));
+    const total = cards.length;
+    if (total <= 1) return;
+
+    let current = 0;
+
+    function goTo(index) {
+      current = ((index % total) + total) % total;
+
+      /* Update text */
+      contents.forEach(c => c.classList.remove('active'));
+      contents[current].classList.add('active');
+
+      /* Update card stack */
+      cards.forEach((card, i) => {
+        /* Calculate position relative to current */
+        let offset = ((i - current) % total + total) % total;
+
+        let rotate = offset * -3;
+        let translateY = offset * 8;
+        let zIndex = total - offset;
+        let opacity = offset > 2 ? 0 : 1;
+        let scale = 1 - (offset * 0.02);
+
+        card.style.zIndex = zIndex;
+        card.style.transform = 'rotate(' + rotate + 'deg) translateY(' + translateY + 'px) scale(' + scale + ')';
+        card.style.opacity = opacity;
+      });
+    }
+
+    section.querySelector('[data-nav="prev"]').addEventListener('click', () => goTo(current - 1));
+    section.querySelector('[data-nav="next"]').addEventListener('click', () => goTo(current + 1));
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "div",
+  "class": "testimonial-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Testimonials"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our merchants say"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F7FA"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Name",
+          "default": "Jane Smith"
+        },
+        {
+          "type": "text",
+          "id": "author_title",
+          "label": "Title / Company",
+          "default": "Founder at Amazing Store"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "CornerCart completely transformed our checkout experience. Our AOV increased by 23% within the first month."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "John Doe",
+            "author_title": "CEO at Great Brand",
+            "quote": "The best Shopify cart app we've ever used. Setup was a breeze and support is incredible."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah Johnson",
+            "author_title": "Marketing Director at Top Shop",
+            "quote": "We saw immediate results after installing CornerCart. The upsell features alone paid for the app within a week."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

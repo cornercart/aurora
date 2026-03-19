@@ -63,7 +63,7 @@
         "type": "font_picker",
         "id": "type_heading_font",
         "label": "Heading Font",
-        "default": "sora_n6"
+        "default": "assistant_n4"
       },
       {
         "type": "header",
@@ -73,7 +73,7 @@
         "type": "font_picker",
         "id": "type_body_font",
         "label": "Body Font",
-        "default": "inter_n4"
+        "default": "assistant_n4"
       }
     ]
   },

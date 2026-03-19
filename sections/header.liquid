@@ -1,41 +1,97 @@
-<!-- Header section placeholder — to be designed -->
-<header class="w-full py-4">
-  <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+<header class="fixed top-0 left-0 w-full z-50 py-5 pointer-events-none" role="banner">
+  <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-center">
+
+    {%- comment -%} Logo — left-aligned {%- endcomment -%}
     {%- if section.settings.logo -%}
-      <a href="/" class="block">
+      <a href="/" class="absolute left-6 block shrink-0 pointer-events-auto">
         <img
           src="{{ section.settings.logo | image_url: width: 200 }}"
           alt="{{ shop.name }}"
-          class="h-8 w-auto"
+          class="w-auto"
+          style="max-width: {{ section.settings.logo_max_width }}px;"
           loading="eager"
         >
       </a>
     {%- else -%}
-      <a href="/" class="font-heading text-xl font-bold text-cc-navy">
+      <a href="/" class="absolute left-6 shrink-0 pointer-events-auto font-heading text-xl font-bold text-[#0D1340]">
         {{ shop.name }}
       </a>
     {%- endif -%}
 
-    <nav class="hidden md:flex items-center gap-1 border border-cc-border rounded-pill px-2 py-1 bg-white/60 backdrop-blur-sm shadow-sm">
+    {%- comment -%} Glassmorphic pill nav — centered {%- endcomment -%}
+    <nav class="hidden md:flex items-center gap-1 rounded-full px-1.5 py-1.5 pointer-events-auto nav-glass">
       {%- for link in section.settings.menu.links -%}
+        {%- liquid
+          assign is_active = false
+          if link.active
+            assign is_active = true
+          endif
+        -%}
         <a
           href="{{ link.url }}"
-          class="px-6 py-3 text-base font-semibold text-cc-navy hover:text-cc-blue transition-colors rounded-pill"
+          class="relative px-7 py-2.5 text-sm font-semibold text-[#0D1340] rounded-full transition-all duration-200 {% if is_active %}nav-active{% else %}hover:bg-white/30{% endif %}"
         >
           {{ link.title }}
         </a>
       {%- endfor -%}
     </nav>
 
-    <div class="md:hidden">
-      <button type="button" class="text-cc-navy" aria-label="Menu">
+    {%- comment -%} CTA — right-aligned {%- endcomment -%}
+    {%- if section.settings.cta_label != blank -%}
+      <a
+        href="{{ section.settings.cta_url }}"
+        class="absolute right-6 hidden md:inline-flex items-center gap-2 bg-cc-blue text-white font-heading font-semibold text-sm py-3 px-6 rounded-full hover:opacity-90 transition-opacity pointer-events-auto"
+      >
+        {{ section.settings.cta_label }}
+      </a>
+    {%- endif -%}
+
+    {%- comment -%} Mobile hamburger {%- endcomment -%}
+    <div class="md:hidden absolute right-6 pointer-events-auto">
+      <button type="button" class="text-[#0D1340]" aria-label="Menu" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
     </div>
   </div>
+
+  {%- comment -%} Mobile nav dropdown {%- endcomment -%}
+  <div id="mobile-nav" class="hidden md:hidden mt-3 mx-6 rounded-2xl p-4 nav-glass pointer-events-auto">
+    {%- for link in section.settings.menu.links -%}
+      <a
+        href="{{ link.url }}"
+        class="block px-4 py-3 text-sm font-semibold text-[#0D1340] rounded-xl {% if link.active %}bg-white{% else %}hover:bg-white/30{% endif %} transition-colors"
+      >
+        {{ link.title }}
+      </a>
+    {%- endfor -%}
+    {%- if section.settings.cta_label != blank -%}
+      <a
+        href="{{ section.settings.cta_url }}"
+        class="block mt-2 text-center bg-cc-blue text-white font-heading font-semibold text-sm py-3 px-6 rounded-full hover:opacity-90 transition-opacity"
+      >
+        {{ section.settings.cta_label }}
+      </a>
+    {%- endif -%}
+  </div>
 </header>
+
+<style>
+  .nav-glass {
+    border-radius: 63px;
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    background: linear-gradient(179deg, rgba(255, 255, 255, 0.60) 0.56%, rgba(255, 255, 255, 0.05) 51.94%, rgba(255, 255, 255, 0.20) 108.51%);
+    box-shadow: 0 9px 13.7px 0 rgba(31, 11, 160, 0.16);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .nav-active {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  }
+</style>
 
 {% schema %}
 {
@@ -44,13 +100,38 @@
     {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo"
+      "label": "Logo",
+      "info": "Optional — if set, appears left of the nav"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Logo max width (px)",
+      "min": 40,
+      "max": 300,
+      "step": 10,
+      "default": 120
     },
     {
       "type": "link_list",
       "id": "menu",
       "label": "Navigation Menu",
       "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
     }
   ]
 }

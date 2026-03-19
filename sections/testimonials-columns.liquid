@@ -1,0 +1,393 @@
+{%- liquid
+  assign bg_color = section.settings.bg_color | default: '#F5F7FA'
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+  assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign section_id = section.id
+  assign total = section.blocks.size
+
+  assign col1_end = total | divided_by: 3
+  assign col2_end = col1_end | times: 2
+-%}
+
+<section
+  class="py-16 md:py-24 relative overflow-hidden"
+  style="background-color: {{ bg_color }};"
+  {{ section.shopify_attributes }}
+  id="tcol-{{ section_id }}"
+>
+  <div class="max-w-[1400px] mx-auto px-6">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="flex flex-col items-center justify-center max-w-[540px] mx-auto mb-10">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="border rounded-lg py-1 px-4 text-sm font-medium mb-5" style="border-color: {{ text_color }}15; color: {{ text_color }};">
+            {{ section.settings.eyebrow }}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center" style="color: {{ text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="text-center mt-5 text-base" style="color: {{ muted_color }};">
+            {{ section.settings.subheading }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="flex justify-center gap-6 tcol-mask max-h-[740px] overflow-hidden">
+
+      {%- comment -%} Column 1 {%- endcomment -%}
+      <div class="tcol-column" data-duration="{{ section.settings.col1_speed }}">
+        <div class="tcol-track flex flex-col gap-6 pb-6">
+          {%- for pass in (1..2) -%}
+            {%- for block in section.blocks -%}
+              {%- if forloop.index0 < col1_end -%}
+                <div class="p-8 rounded-3xl border shadow-lg max-w-xs w-full" style="background-color: {{ card_bg }}; border-color: {{ text_color }}08; box-shadow: 0 4px 20px {{ accent_color }}10;" {{ block.shopify_attributes }}>
+                  {%- if block.settings.quote != blank -%}
+                    <p class="text-base leading-relaxed" style="color: {{ text_color }};">{{ block.settings.quote }}</p>
+                  {%- endif -%}
+                  <div class="flex items-center gap-3 mt-5">
+                    {%- if block.settings.avatar != blank -%}
+                      <div class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+                        {{ block.settings.avatar | image_url: width: 80 | image_tag: class: 'w-full h-full object-cover', loading: 'lazy' }}
+                      </div>
+                    {%- else -%}
+                      <div class="w-10 h-10 rounded-full shrink-0 flex items-center justify-center text-sm font-bold" style="background-color: {{ accent_color }}15; color: {{ accent_color }};">
+                        {{ block.settings.author_name | slice: 0 }}
+                      </div>
+                    {%- endif -%}
+                    <div class="flex flex-col">
+                      {%- if block.settings.author_name != blank -%}
+                        <span class="font-medium text-sm tracking-tight leading-5" style="color: {{ text_color }};">{{ block.settings.author_name }}</span>
+                      {%- endif -%}
+                      {%- if block.settings.author_title != blank -%}
+                        <span class="text-sm leading-5 tracking-tight" style="color: {{ muted_color }};">{{ block.settings.author_title }}</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment -%} Column 2 — hidden on mobile {%- endcomment -%}
+      <div class="tcol-column hidden md:block" data-duration="{{ section.settings.col2_speed }}">
+        <div class="tcol-track flex flex-col gap-6 pb-6">
+          {%- for pass in (1..2) -%}
+            {%- for block in section.blocks -%}
+              {%- if forloop.index0 >= col1_end and forloop.index0 < col2_end -%}
+                <div class="p-8 rounded-3xl border shadow-lg max-w-xs w-full" style="background-color: {{ card_bg }}; border-color: {{ text_color }}08; box-shadow: 0 4px 20px {{ accent_color }}10;" {{ block.shopify_attributes }}>
+                  {%- if block.settings.quote != blank -%}
+                    <p class="text-base leading-relaxed" style="color: {{ text_color }};">{{ block.settings.quote }}</p>
+                  {%- endif -%}
+                  <div class="flex items-center gap-3 mt-5">
+                    {%- if block.settings.avatar != blank -%}
+                      <div class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+                        {{ block.settings.avatar | image_url: width: 80 | image_tag: class: 'w-full h-full object-cover', loading: 'lazy' }}
+                      </div>
+                    {%- else -%}
+                      <div class="w-10 h-10 rounded-full shrink-0 flex items-center justify-center text-sm font-bold" style="background-color: {{ accent_color }}15; color: {{ accent_color }};">
+                        {{ block.settings.author_name | slice: 0 }}
+                      </div>
+                    {%- endif -%}
+                    <div class="flex flex-col">
+                      {%- if block.settings.author_name != blank -%}
+                        <span class="font-medium text-sm tracking-tight leading-5" style="color: {{ text_color }};">{{ block.settings.author_name }}</span>
+                      {%- endif -%}
+                      {%- if block.settings.author_title != blank -%}
+                        <span class="text-sm leading-5 tracking-tight" style="color: {{ muted_color }};">{{ block.settings.author_title }}</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment -%} Column 3 — hidden on mobile and tablet {%- endcomment -%}
+      <div class="tcol-column hidden lg:block" data-duration="{{ section.settings.col3_speed }}">
+        <div class="tcol-track flex flex-col gap-6 pb-6">
+          {%- for pass in (1..2) -%}
+            {%- for block in section.blocks -%}
+              {%- if forloop.index0 >= col2_end -%}
+                <div class="p-8 rounded-3xl border shadow-lg max-w-xs w-full" style="background-color: {{ card_bg }}; border-color: {{ text_color }}08; box-shadow: 0 4px 20px {{ accent_color }}10;" {{ block.shopify_attributes }}>
+                  {%- if block.settings.quote != blank -%}
+                    <p class="text-base leading-relaxed" style="color: {{ text_color }};">{{ block.settings.quote }}</p>
+                  {%- endif -%}
+                  <div class="flex items-center gap-3 mt-5">
+                    {%- if block.settings.avatar != blank -%}
+                      <div class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+                        {{ block.settings.avatar | image_url: width: 80 | image_tag: class: 'w-full h-full object-cover', loading: 'lazy' }}
+                      </div>
+                    {%- else -%}
+                      <div class="w-10 h-10 rounded-full shrink-0 flex items-center justify-center text-sm font-bold" style="background-color: {{ accent_color }}15; color: {{ accent_color }};">
+                        {{ block.settings.author_name | slice: 0 }}
+                      </div>
+                    {%- endif -%}
+                    <div class="flex flex-col">
+                      {%- if block.settings.author_name != blank -%}
+                        <span class="font-medium text-sm tracking-tight leading-5" style="color: {{ text_color }};">{{ block.settings.author_name }}</span>
+                      {%- endif -%}
+                      {%- if block.settings.author_title != blank -%}
+                        <span class="text-sm leading-5 tracking-tight" style="color: {{ muted_color }};">{{ block.settings.author_title }}</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .tcol-mask {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+  }
+
+  .tcol-track {
+    animation: tcol-scroll var(--tcol-duration, 15s) linear infinite;
+  }
+
+  .tcol-column:hover .tcol-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes tcol-scroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+</style>
+
+<script>
+  (function() {
+    const section = document.getElementById('tcol-{{ section_id }}');
+    if (!section) return;
+
+    section.querySelectorAll('.tcol-column').forEach(col => {
+      const duration = col.dataset.duration || 15;
+      const track = col.querySelector('.tcol-track');
+      if (track) {
+        track.style.setProperty('--tcol-duration', duration + 's');
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonial Columns",
+  "tag": "div",
+  "class": "tcol-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Testimonials"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our users say"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "See what our customers have to say about us."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F7FA"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "header",
+      "content": "Column Speeds (seconds)"
+    },
+    {
+      "type": "range",
+      "id": "col1_speed",
+      "label": "Column 1 speed",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 15,
+      "info": "Lower = faster"
+    },
+    {
+      "type": "range",
+      "id": "col2_speed",
+      "label": "Column 2 speed",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 19
+    },
+    {
+      "type": "range",
+      "id": "col3_speed",
+      "label": "Column 3 speed",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 17
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review text",
+          "default": "This app completely transformed our checkout experience. Highly recommend!"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Author photo"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Name",
+          "default": "Jane Smith"
+        },
+        {
+          "type": "text",
+          "id": "author_title",
+          "label": "Title / Role",
+          "default": "Operations Manager"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial Columns",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "quote": "This app revolutionized our operations, streamlining checkout and inventory. The platform keeps us productive even on busy days.",
+            "author_name": "Briana Patton",
+            "author_title": "Operations Manager"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Implementing CornerCart was smooth and quick. The customizable, user-friendly interface made team training effortless.",
+            "author_name": "Bilal Ahmed",
+            "author_title": "IT Manager"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "The support team is exceptional, guiding us through setup and providing ongoing assistance.",
+            "author_name": "Saman Malik",
+            "author_title": "Customer Support Lead"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Seamless integration enhanced our business operations and efficiency. Highly recommend for its intuitive interface.",
+            "author_name": "Omar Raza",
+            "author_title": "CEO"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Its robust features and quick support have transformed our workflow, making us significantly more efficient.",
+            "author_name": "Zainab Hussain",
+            "author_title": "Project Manager"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "The smooth implementation exceeded expectations. It streamlined processes, improving overall business performance.",
+            "author_name": "Aliza Khan",
+            "author_title": "Business Analyst"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Our business functions improved with a user-friendly design and positive customer feedback.",
+            "author_name": "Farhan Siddiqui",
+            "author_title": "Marketing Director"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "They delivered a solution that exceeded expectations, understanding our needs and enhancing our operations.",
+            "author_name": "Sana Sheikh",
+            "author_title": "Sales Manager"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Using CornerCart, our online conversions significantly improved, boosting business performance across the board.",
+            "author_name": "Hassan Ali",
+            "author_title": "E-commerce Manager"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

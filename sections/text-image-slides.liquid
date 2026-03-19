@@ -1,0 +1,359 @@
+{%- liquid
+  assign bg_color = section.settings.bg_color | default: '#F5F7FA'
+  assign text_color = section.settings.text_color | default: '#0D1340'
+  assign muted_color = section.settings.muted_color | default: '#50436F'
+  assign accent_color = section.settings.accent_color | default: '#1D4AFE'
+  assign autoplay_speed = section.settings.autoplay_speed | default: 6
+  assign section_id = section.id
+-%}
+
+<section
+  class="py-16 md:py-24"
+  style="background-color: {{ bg_color }};"
+  {{ section.shopify_attributes }}
+  data-tis-section
+  data-autoplay-speed="{{ autoplay_speed }}"
+  id="tis-{{ section_id }}"
+>
+  <div class="max-w-[1400px] mx-auto px-6">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="mb-12 md:mb-16 {% if section.settings.heading_align == 'center' %}text-center{% endif %}">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="inline-block text-sm font-semibold tracking-wide uppercase mb-3" style="color: {{ accent_color }};">
+            {{ section.settings.eyebrow }}
+          </span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold" style="color: {{ text_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="tis-slider relative" data-slider>
+      {%- for block in section.blocks -%}
+        <div
+          class="tis-slide {% if forloop.first %}active{% endif %}"
+          data-slide-index="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+
+            {%- comment -%} Left — Image {%- endcomment -%}
+            <div class="order-2 lg:order-1">
+              <div class="rounded-2xl overflow-hidden">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 900 | image_tag:
+                    class: 'w-full h-auto object-cover',
+                    loading: 'lazy',
+                    widths: '400,600,900'
+                  }}
+                {%- else -%}
+                  <div class="w-full aspect-[4/3] flex items-center justify-center rounded-2xl" style="background-color: {{ accent_color }}10;">
+                    <span class="text-sm" style="color: {{ muted_color }};">Image placeholder</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- comment -%} Right — Text content {%- endcomment -%}
+            <div class="flex flex-col gap-4 order-1 lg:order-2">
+              {%- if block.settings.title != blank -%}
+                <h3 class="font-heading text-2xl md:text-3xl font-semibold" style="color: {{ text_color }};">
+                  {{ block.settings.title }}
+                </h3>
+              {%- endif -%}
+
+              {%- if block.settings.subtitle != blank -%}
+                <p class="text-base font-semibold" style="color: {{ accent_color }};">
+                  {{ block.settings.subtitle }}
+                </p>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <p class="text-base md:text-lg leading-relaxed" style="color: {{ muted_color }};">
+                  {{ block.settings.description }}
+                </p>
+              {%- endif -%}
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="mt-2">
+                  <a
+                    href="{{ block.settings.button_url }}"
+                    class="inline-flex items-center gap-2 font-heading font-semibold text-sm py-3 px-6 {% if block.settings.button_style == 'primary' %}btn-primary{% else %}btn-secondary{% endif %}"
+                  >
+                    {{ block.settings.button_label }}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+
+          </div>
+        </div>
+      {%- endfor -%}
+
+      {%- comment -%} Progress bars {%- endcomment -%}
+      {%- if section.blocks.size > 1 -%}
+        <div class="flex items-center gap-2 mt-10">
+          {%- for block in section.blocks -%}
+            <button
+              class="tis-progress-bar relative h-1 flex-1 rounded-full overflow-hidden cursor-pointer"
+              style="background-color: {{ text_color }}10;"
+              data-progress-index="{{ forloop.index0 }}"
+              aria-label="Go to slide {{ forloop.index }}"
+            >
+              <div
+                class="tis-progress-fill absolute inset-y-0 left-0 rounded-full"
+                style="background-color: {{ accent_color }}; width: 0%;"
+              ></div>
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tis-slide {
+    display: none;
+    animation: tisFadeIn 0.5s ease-out;
+  }
+  .tis-slide.active {
+    display: block;
+  }
+  @keyframes tisFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  (function() {
+    const section = document.getElementById('tis-{{ section_id }}');
+    if (!section) return;
+
+    const slides = section.querySelectorAll('[data-slide-index]');
+    const progressBars = section.querySelectorAll('[data-progress-index]');
+    const speed = parseInt(section.dataset.autoplaySpeed, 10) * 1000;
+
+    let current = 0;
+    let timer = null;
+
+    function goTo(index) {
+      slides.forEach(s => s.classList.remove('active'));
+      slides[index].classList.add('active');
+      current = index;
+      resetProgress();
+    }
+
+    function next() {
+      goTo((current + 1) % slides.length);
+    }
+
+    function resetProgress() {
+      progressBars.forEach(bar => {
+        const fill = bar.querySelector('.tis-progress-fill');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+      });
+
+      requestAnimationFrame(() => {
+        const activeFill = progressBars[current]?.querySelector('.tis-progress-fill');
+        if (activeFill) {
+          activeFill.style.transition = 'width ' + speed + 'ms linear';
+          activeFill.style.width = '100%';
+        }
+      });
+
+      clearTimeout(timer);
+      timer = setTimeout(next, speed);
+    }
+
+    progressBars.forEach(bar => {
+      bar.addEventListener('click', () => {
+        goTo(parseInt(bar.dataset.progressIndex, 10));
+      });
+    });
+
+    if (slides.length > 1) {
+      resetProgress();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Text + Image Slides",
+  "tag": "div",
+  "class": "tis-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Features"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything you need to boost sales"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F7FA"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0D1340"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#50436F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1D4AFE"
+    },
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Seconds per slide",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "default": 6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Smart Upsells & Cross-sells"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Increase AOV effortlessly"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Recommend relevant products at the right moment. Our AI-powered engine suggests complementary items that your customers actually want."
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "primary", "label": "Primary (blue)" },
+            { "value": "secondary", "label": "Secondary (white)" }
+          ],
+          "default": "secondary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text + Image Slides",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Smart Upsells & Cross-sells",
+            "subtitle": "Increase AOV effortlessly",
+            "description": "Recommend relevant products at the right moment. Our AI-powered engine suggests complementary items that your customers actually want.",
+            "button_label": "Learn more"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Beautiful Cart Drawer",
+            "subtitle": "Designed for conversions",
+            "description": "A stunning slide-out cart that keeps customers on the page. Fully customizable to match your brand, with built-in progress bars and rewards.",
+            "button_label": "Learn more"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Analytics & Insights",
+            "subtitle": "Data-driven decisions",
+            "description": "Track every upsell, cross-sell, and cart interaction. Understand what works and optimize your strategy with real-time analytics.",
+            "button_label": "Learn more"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
