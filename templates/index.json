@@ -19,7 +19,23 @@
             "scroll_speed": 30,
             "logo_max_width": 120,
             "gap": 56,
-            "row_gap": 20
+            "row_gap": 20,
+            "row1_logo_1": "shopify://shop_images/social-proof-bravado.svg",
+            "row1_logo_2": "shopify://shop_images/social-proof-fenix.svg",
+            "row1_logo_3": "shopify://shop_images/social-proof-teabox.svg",
+            "row1_logo_4": "shopify://shop_images/social-proof-books4people.svg",
+            "row1_logo_5": "shopify://shop_images/social-proof-activation.svg",
+            "row1_logo_6": "shopify://shop_images/social-proof-abba.svg",
+            "row1_logo_7": "shopify://shop_images/social-proof-just-wines.svg",
+            "row1_logo_8": "shopify://shop_images/social-proof-mhp.svg",
+            "row2_logo_1": "shopify://shop_images/social-proof-rollignstones.svg",
+            "row2_logo_2": "shopify://shop_images/social-proof-circle.svg",
+            "row2_logo_3": "shopify://shop_images/social-proof-ohuhu.svg",
+            "row2_logo_4": "shopify://shop_images/social-proof-modelones.svg",
+            "row2_logo_5": "shopify://shop_images/social-proof-hooey.svg",
+            "row2_logo_6": "shopify://shop_images/social-proof-thca.svg",
+            "row2_logo_7": "shopify://shop_images/social-proof-zebra.svg",
+            "row2_logo_8": "shopify://shop_images/social-proof-pedersons.svg"
           }
         },
         "center_aligned_exRHUV": {
@@ -64,43 +80,9 @@
         "wave_color": "#ffffff",
         "wave_height": 50
       }
-    },
-    "logo_cloud": {
-      "type": "logo-cloud",
-      "settings": {
-        "heading": "Trusted by 10,000+ Shopify merchants",
-        "heading_center": true,
-        "bg_type": "solid",
-        "bg_color": "#f5f7fa",
-        "linear_color_1": "#1d4afe",
-        "linear_color_2": "#6c3aed",
-        "linear_angle": 180,
-        "gradient_color_1": "#1d4afe",
-        "gradient_color_2": "#cfd4f2",
-        "gradient_color_3": "#decff2",
-        "gradient_color_4": "#3b82ff",
-        "gradient_color_5": "#ffffff",
-        "gradient_speed": 2,
-        "gradient_intensity": 7,
-        "show_wave": false,
-        "wave_color": "#ffffff",
-        "wave_height": 20,
-        "show_lines": true,
-        "line_color": "#e3e0e0",
-        "line_opacity": 15,
-        "line_count": 30,
-        "line_thickness": 1,
-        "text_light": false,
-        "disable_fade": false,
-        "scroll_speed": 30,
-        "logo_height": 32,
-        "gap": 64,
-        "row_gap": 24
-      }
     }
   },
   "order": [
-    "hero_Kjmb7H",
-    "logo_cloud"
+    "hero_Kjmb7H"
   ]
 }
