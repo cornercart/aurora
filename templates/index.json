@@ -16,7 +16,7 @@
           "type": "logo_cloud",
           "settings": {
             "heading": "Trusted by 10,000+ Shopify merchants",
-            "scroll_speed": 30,
+            "scroll_speed": 60,
             "logo_max_width": 120,
             "gap": 56,
             "row_gap": 20,
