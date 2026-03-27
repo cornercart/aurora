@@ -80,9 +80,73 @@
         "wave_color": "#ffffff",
         "wave_height": 50
       }
+    },
+    "testimonials_WKAXKd": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_prfHeE": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Diwaker Chettri",
+            "author_title": "Ecommerce Manager, TeaBox",
+            "quote": "CornerCart completely transformed our checkout experience. Our AOV increased by 23% within the first month."
+          }
+        },
+        "testimonial_pnq7NX": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "John Doe",
+            "author_title": "CEO at Great Brand",
+            "quote": "The best Shopify cart app we've ever used. Setup was a breeze and support is incredible."
+          }
+        },
+        "testimonial_8EUDcX": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah Johnson",
+            "author_title": "Marketing Director at Top Shop",
+            "quote": "We saw immediate results after installing CornerCart. The upsell features alone paid for the app within a week."
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_prfHeE",
+        "testimonial_pnq7NX",
+        "testimonial_8EUDcX"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "eyebrow": "Testimonials",
+        "heading": "What our merchants say",
+        "heading_align": "left",
+        "bg_type": "solid",
+        "bg_color": "#ffffff",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3,
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#feaa1d"
+      }
     }
   },
   "order": [
-    "hero_Kjmb7H"
+    "hero_Kjmb7H",
+    "testimonials_WKAXKd"
   ]
 }
