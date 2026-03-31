@@ -121,6 +121,327 @@
         "heading_align": "left",
         "bg_type": "solid",
         "bg_color": "#ffffff",
+        "linear_color_1": "#1d4afe",
+        "linear_color_2": "#6c3aed",
+        "linear_angle": 180,
+        "gradient_color_1": "#1d4afe",
+        "gradient_color_2": "#cfd4f2",
+        "gradient_color_3": "#decff2",
+        "gradient_color_4": "#3b82ff",
+        "gradient_color_5": "#ffffff",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3,
+        "text_color": "#0d1340",
+        "muted_color": "#50436f",
+        "accent_color": "#feaa1d"
+      }
+    },
+    "bento_grid_Fb3PGi": {
+      "type": "bento-grid",
+      "blocks": {
+        "card_fe8frD": {
+          "type": "card",
+          "settings": {
+            "span": "tall-left",
+            "icon": "cart",
+            "title": "Smart Cart Drawer",
+            "description": "A beautiful slide-out cart with real-time updates and a seamless checkout experience.",
+            "image_position": "bottom"
+          }
+        },
+        "card_apfWkx": {
+          "type": "card",
+          "settings": {
+            "span": "single",
+            "icon": "rocket",
+            "title": "Upsell Engine",
+            "description": "Intelligent product recommendations that boost your average order value.",
+            "image_position": "bottom"
+          }
+        },
+        "card_W4d6Bf": {
+          "type": "card",
+          "settings": {
+            "span": "single",
+            "icon": "shield",
+            "title": "Fully Secure",
+            "description": "Enterprise-grade security with zero impact on your store's performance.",
+            "image_position": "bottom"
+          }
+        },
+        "card_dXaUFm": {
+          "type": "card",
+          "settings": {
+            "span": "tall-right",
+            "icon": "analytics",
+            "title": "Analytics Dashboard",
+            "description": "Track cart performance, conversion rates, and revenue impact in real time.",
+            "image_position": "bottom"
+          }
+        }
+      },
+      "block_order": [
+        "card_fe8frD",
+        "card_apfWkx",
+        "card_W4d6Bf",
+        "card_dXaUFm"
+      ],
+      "name": "Bento Grid",
+      "settings": {
+        "eyebrow": "Features",
+        "heading": "Everything you need to boost sales",
+        "subheading": "A powerful toolkit designed to increase your AOV and delight your customers.",
+        "card_bg": "#ffffff",
+        "card_border": "#e5e7eb",
+        "glow_color": "#1D4AFE",
+        "glow_corner": "top-left",
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#1D4AFE",
+        "bg_type": "solid",
+        "bg_color": "#ffffff",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
+    "feature_accordion_kaBkzH": {
+      "type": "feature-accordion",
+      "blocks": {
+        "feature_hJbbRn": {
+          "type": "feature",
+          "settings": {
+            "icon": "cart",
+            "title": "Smart Cart Drawer",
+            "description": "A beautiful, conversion-optimized slide-out cart with real-time updates, product recommendations, and a seamless checkout flow."
+          }
+        },
+        "feature_AiCK3D": {
+          "type": "feature",
+          "settings": {
+            "icon": "rocket",
+            "title": "Upsell & Cross-sell",
+            "description": "Boost your AOV with intelligent product suggestions, bundles, and add-ons directly inside the cart experience."
+          }
+        },
+        "feature_fU9K6L": {
+          "type": "feature",
+          "settings": {
+            "icon": "analytics",
+            "title": "Analytics Dashboard",
+            "description": "Track cart performance, conversion rates, and revenue impact with a real-time analytics dashboard built for merchants."
+          }
+        },
+        "feature_FBNaD9": {
+          "type": "feature",
+          "settings": {
+            "icon": "settings",
+            "title": "Full Customization",
+            "description": "Match your brand perfectly with complete control over colors, fonts, layout, and behavior — no code required."
+          }
+        },
+        "feature_VM6KWA": {
+          "type": "feature",
+          "settings": {
+            "icon": "bolt",
+            "title": "Lightning Fast",
+            "description": "Built for performance with lazy loading, minimal footprint, and zero impact on your store's page speed scores."
+          }
+        }
+      },
+      "block_order": [
+        "feature_hJbbRn",
+        "feature_AiCK3D",
+        "feature_fU9K6L",
+        "feature_FBNaD9",
+        "feature_VM6KWA"
+      ],
+      "name": "Feature Accordion",
+      "settings": {
+        "heading": "Get to know CornerCart",
+        "description": "Replace multiple broken tools with CornerCart, the only cart platform designed to boost your AOV and make your customers happier.",
+        "cta_label": "Platform Overview",
+        "cta_url": "",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#1D4AFE",
+        "bg_type": "solid",
+        "bg_color": "#ffffff",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
+    "section_title_fxWYA8": {
+      "type": "section-title",
+      "name": "Section Title",
+      "settings": {
+        "alignment": "center",
+        "eyebrow": "Our Features",
+        "heading": "Everything you need to grow your store",
+        "subtitle": "Powerful tools designed to help you increase conversions and boost average order value.",
+        "cta_label": "",
+        "cta_url": "",
+        "cta_style": "primary",
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#1D4AFE",
+        "bg_type": "solid",
+        "bg_color": "#F5F7FA",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
+    "testimonials_columns_paDT9g": {
+      "type": "testimonials-columns",
+      "blocks": {
+        "review_66hcbQ": {
+          "type": "review",
+          "settings": {
+            "quote": "This app revolutionized our operations, streamlining checkout and inventory. The platform keeps us productive even on busy days.",
+            "author_name": "Briana Patton",
+            "author_title": "Operations Manager"
+          }
+        },
+        "review_iRYKe9": {
+          "type": "review",
+          "settings": {
+            "quote": "Implementing CornerCart was smooth and quick. The customizable, user-friendly interface made team training effortless.",
+            "author_name": "Bilal Ahmed",
+            "author_title": "IT Manager"
+          }
+        },
+        "review_DNhgbF": {
+          "type": "review",
+          "settings": {
+            "quote": "The support team is exceptional, guiding us through setup and providing ongoing assistance.",
+            "author_name": "Saman Malik",
+            "author_title": "Customer Support Lead"
+          }
+        },
+        "review_FPqTBG": {
+          "type": "review",
+          "settings": {
+            "quote": "Seamless integration enhanced our business operations and efficiency. Highly recommend for its intuitive interface.",
+            "author_name": "Omar Raza",
+            "author_title": "CEO"
+          }
+        },
+        "review_RWepk9": {
+          "type": "review",
+          "settings": {
+            "quote": "Its robust features and quick support have transformed our workflow, making us significantly more efficient.",
+            "author_name": "Zainab Hussain",
+            "author_title": "Project Manager"
+          }
+        },
+        "review_fikNhi": {
+          "type": "review",
+          "settings": {
+            "quote": "The smooth implementation exceeded expectations. It streamlined processes, improving overall business performance.",
+            "author_name": "Aliza Khan",
+            "author_title": "Business Analyst"
+          }
+        },
+        "review_4FGdRP": {
+          "type": "review",
+          "settings": {
+            "quote": "Our business functions improved with a user-friendly design and positive customer feedback.",
+            "author_name": "Farhan Siddiqui",
+            "author_title": "Marketing Director"
+          }
+        },
+        "review_XHexmY": {
+          "type": "review",
+          "settings": {
+            "quote": "They delivered a solution that exceeded expectations, understanding our needs and enhancing our operations.",
+            "author_name": "Sana Sheikh",
+            "author_title": "Sales Manager"
+          }
+        },
+        "review_FhqmWr": {
+          "type": "review",
+          "settings": {
+            "quote": "Using CornerCart, our online conversions significantly improved, boosting business performance across the board.",
+            "author_name": "Hassan Ali",
+            "author_title": "E-commerce Manager"
+          }
+        }
+      },
+      "block_order": [
+        "review_66hcbQ",
+        "review_iRYKe9",
+        "review_DNhgbF",
+        "review_FPqTBG",
+        "review_RWepk9",
+        "review_fikNhi",
+        "review_4FGdRP",
+        "review_XHexmY",
+        "review_FhqmWr"
+      ],
+      "name": "Testimonial Columns",
+      "settings": {
+        "eyebrow": "Testimonials",
+        "heading": "What our users say",
+        "subheading": "See what our customers have to say about us.",
+        "bg_type": "solid",
+        "bg_color": "#F5F7FA",
         "linear_color_1": "#1D4AFE",
         "linear_color_2": "#6C3AED",
         "linear_angle": 180,
@@ -139,14 +460,90 @@
         "line_opacity": 15,
         "line_count": 30,
         "line_thickness": 3,
+        "card_bg": "#ffffff",
         "text_color": "#0D1340",
         "muted_color": "#50436F",
-        "accent_color": "#feaa1d"
+        "accent_color": "#1D4AFE",
+        "col1_speed": 15,
+        "col2_speed": 19,
+        "col3_speed": 17
+      }
+    },
+    "cta_banner_6y8tYN": {
+      "type": "cta-banner",
+      "blocks": {
+        "bullet_krwy46": {
+          "type": "bullet",
+          "settings": {
+            "text": "Easy one-click setup"
+          }
+        },
+        "bullet_gMN6Li": {
+          "type": "bullet",
+          "settings": {
+            "text": "No coding required"
+          }
+        },
+        "bullet_C64EG6": {
+          "type": "bullet",
+          "settings": {
+            "text": "Works with any theme"
+          }
+        },
+        "bullet_AXxT8F": {
+          "type": "bullet",
+          "settings": {
+            "text": "Free plan available"
+          }
+        }
+      },
+      "block_order": [
+        "bullet_krwy46",
+        "bullet_gMN6Li",
+        "bullet_C64EG6",
+        "bullet_AXxT8F"
+      ],
+      "name": "CTA Banner",
+      "settings": {
+        "heading": "Ready to boost your store's revenue?",
+        "description": "Join thousands of Shopify merchants who have increased their average order value with our powerful cart solution.",
+        "primary_cta_label": "Get Started Free",
+        "primary_cta_url": "",
+        "secondary_cta_label": "Learn More",
+        "secondary_cta_url": "",
+        "card_bg": "#0D1340",
+        "text_color": "#ffffff",
+        "muted_text_color": "#ffffffb3",
+        "bg_type": "solid",
+        "bg_color": "#F5F7FA",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
       }
     }
   },
   "order": [
     "hero_Kjmb7H",
-    "testimonials_WKAXKd"
+    "testimonials_WKAXKd",
+    "bento_grid_Fb3PGi",
+    "feature_accordion_kaBkzH",
+    "section_title_fxWYA8",
+    "cta_banner_6y8tYN",
+    "testimonials_columns_paDT9g"
   ]
 }
