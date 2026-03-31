@@ -144,6 +144,90 @@
         "accent_color": "#feaa1d"
       }
     },
+    "feature_accordion_kaBkzH": {
+      "type": "feature-accordion",
+      "blocks": {
+        "feature_hJbbRn": {
+          "type": "feature",
+          "settings": {
+            "icon": "cart",
+            "title": "Smart Cart Drawer",
+            "description": "A beautiful, conversion-optimized slide-out cart with real-time updates, product recommendations, and a seamless checkout flow."
+          }
+        },
+        "feature_AiCK3D": {
+          "type": "feature",
+          "settings": {
+            "icon": "rocket",
+            "title": "Upsell & Cross-sell",
+            "description": "Boost your AOV with intelligent product suggestions, bundles, and add-ons directly inside the cart experience."
+          }
+        },
+        "feature_fU9K6L": {
+          "type": "feature",
+          "settings": {
+            "icon": "analytics",
+            "title": "Analytics Dashboard",
+            "description": "Track cart performance, conversion rates, and revenue impact with a real-time analytics dashboard built for merchants."
+          }
+        },
+        "feature_FBNaD9": {
+          "type": "feature",
+          "settings": {
+            "icon": "settings",
+            "title": "Full Customization",
+            "description": "Match your brand perfectly with complete control over colors, fonts, layout, and behavior — no code required."
+          }
+        },
+        "feature_VM6KWA": {
+          "type": "feature",
+          "settings": {
+            "icon": "bolt",
+            "title": "Lightning Fast",
+            "description": "Built for performance with lazy loading, minimal footprint, and zero impact on your store's page speed scores."
+          }
+        }
+      },
+      "block_order": [
+        "feature_hJbbRn",
+        "feature_AiCK3D",
+        "feature_fU9K6L",
+        "feature_FBNaD9",
+        "feature_VM6KWA"
+      ],
+      "name": "Feature Accordion",
+      "settings": {
+        "heading": "Get to know CornerCart",
+        "description": "Replace multiple broken tools with CornerCart, the only cart platform designed to boost your AOV and make your customers happier.",
+        "cta_label": "Platform Overview",
+        "cta_url": "",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#fe1d45",
+        "bg_type": "solid",
+        "bg_color": "#ffffff",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
     "bento_grid_Fb3PGi": {
       "type": "bento-grid",
       "blocks": {
@@ -206,101 +290,17 @@
         "text_color": "#0D1340",
         "muted_color": "#50436F",
         "accent_color": "#1D4AFE",
-        "bg_type": "solid",
+        "bg_type": "linear",
         "bg_color": "#ffffff",
-        "linear_color_1": "#1D4AFE",
-        "linear_color_2": "#6C3AED",
+        "linear_color_1": "#ffffff",
+        "linear_color_2": "#e2e8ff",
         "linear_angle": 180,
         "gradient_color_1": "#1D4AFE",
         "gradient_color_2": "#CFD4F2",
         "gradient_color_3": "#DECFF2",
         "gradient_color_4": "#3B82FF",
         "gradient_color_5": "#FFFFFF",
-        "gradient_speed": 2,
-        "gradient_intensity": 1,
-        "show_wave": false,
-        "wave_color": "#ffffff",
-        "wave_height": 20,
-        "show_lines": false,
-        "line_color": "#ffffff",
-        "line_opacity": 15,
-        "line_count": 30,
-        "line_thickness": 3
-      }
-    },
-    "feature_accordion_kaBkzH": {
-      "type": "feature-accordion",
-      "blocks": {
-        "feature_hJbbRn": {
-          "type": "feature",
-          "settings": {
-            "icon": "cart",
-            "title": "Smart Cart Drawer",
-            "description": "A beautiful, conversion-optimized slide-out cart with real-time updates, product recommendations, and a seamless checkout flow."
-          }
-        },
-        "feature_AiCK3D": {
-          "type": "feature",
-          "settings": {
-            "icon": "rocket",
-            "title": "Upsell & Cross-sell",
-            "description": "Boost your AOV with intelligent product suggestions, bundles, and add-ons directly inside the cart experience."
-          }
-        },
-        "feature_fU9K6L": {
-          "type": "feature",
-          "settings": {
-            "icon": "analytics",
-            "title": "Analytics Dashboard",
-            "description": "Track cart performance, conversion rates, and revenue impact with a real-time analytics dashboard built for merchants."
-          }
-        },
-        "feature_FBNaD9": {
-          "type": "feature",
-          "settings": {
-            "icon": "settings",
-            "title": "Full Customization",
-            "description": "Match your brand perfectly with complete control over colors, fonts, layout, and behavior — no code required."
-          }
-        },
-        "feature_VM6KWA": {
-          "type": "feature",
-          "settings": {
-            "icon": "bolt",
-            "title": "Lightning Fast",
-            "description": "Built for performance with lazy loading, minimal footprint, and zero impact on your store's page speed scores."
-          }
-        }
-      },
-      "block_order": [
-        "feature_hJbbRn",
-        "feature_AiCK3D",
-        "feature_fU9K6L",
-        "feature_FBNaD9",
-        "feature_VM6KWA"
-      ],
-      "name": "Feature Accordion",
-      "settings": {
-        "heading": "Get to know CornerCart",
-        "description": "Replace multiple broken tools with CornerCart, the only cart platform designed to boost your AOV and make your customers happier.",
-        "cta_label": "Platform Overview",
-        "cta_url": "",
-        "autoplay": true,
-        "autoplay_speed": 5,
-        "text_color": "#0D1340",
-        "muted_color": "#50436F",
-        "accent_color": "#1D4AFE",
-        "bg_type": "solid",
-        "bg_color": "#ffffff",
-        "linear_color_1": "#1D4AFE",
-        "linear_color_2": "#6C3AED",
-        "linear_angle": 180,
-        "gradient_color_1": "#1D4AFE",
-        "gradient_color_2": "#CFD4F2",
-        "gradient_color_3": "#DECFF2",
-        "gradient_color_4": "#3B82FF",
-        "gradient_color_5": "#FFFFFF",
-        "gradient_speed": 2,
+        "gradient_speed": 1,
         "gradient_intensity": 1,
         "show_wave": false,
         "wave_color": "#ffffff",
@@ -328,6 +328,153 @@
         "accent_color": "#1D4AFE",
         "bg_type": "solid",
         "bg_color": "#F5F7FA",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
+    "cta_banner_6y8tYN": {
+      "type": "cta-banner",
+      "blocks": {
+        "bullet_krwy46": {
+          "type": "bullet",
+          "settings": {
+            "text": "Easy one-click setup"
+          }
+        },
+        "bullet_gMN6Li": {
+          "type": "bullet",
+          "settings": {
+            "text": "No coding required"
+          }
+        },
+        "bullet_C64EG6": {
+          "type": "bullet",
+          "settings": {
+            "text": "Works with any theme"
+          }
+        },
+        "bullet_AXxT8F": {
+          "type": "bullet",
+          "settings": {
+            "text": "Free plan available"
+          }
+        }
+      },
+      "block_order": [
+        "bullet_krwy46",
+        "bullet_gMN6Li",
+        "bullet_C64EG6",
+        "bullet_AXxT8F"
+      ],
+      "name": "CTA Banner",
+      "settings": {
+        "heading": "Ready to boost your store's revenue?",
+        "description": "Join thousands of Shopify merchants who have increased their average order value with our powerful cart solution.",
+        "primary_cta_label": "Get Started Free",
+        "primary_cta_url": "",
+        "secondary_cta_label": "Learn More",
+        "secondary_cta_url": "",
+        "card_bg": "#0D1340",
+        "text_color": "#ffffff",
+        "muted_text_color": "#ffffffb3",
+        "bg_type": "solid",
+        "bg_color": "#F5F7FA",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
+    "image_with_text_n8CX6P": {
+      "type": "image-with-text",
+      "name": "Image with Text",
+      "settings": {
+        "layout": "image-left",
+        "vertical_align": "center",
+        "image_style": "rounded",
+        "eyebrow": "About Us",
+        "heading": "Built for Shopify merchants who care about growth",
+        "subtitle": "",
+        "description": "<p>We help thousands of Shopify stores increase their average order value with a beautiful, conversion-optimized cart experience.</p>",
+        "primary_cta_label": "",
+        "primary_cta_url": "",
+        "secondary_cta_label": "Learn More",
+        "secondary_cta_url": "",
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#1D4AFE",
+        "bg_type": "solid",
+        "bg_color": "#ffffff",
+        "linear_color_1": "#1D4AFE",
+        "linear_color_2": "#6C3AED",
+        "linear_angle": 180,
+        "gradient_color_1": "#1D4AFE",
+        "gradient_color_2": "#CFD4F2",
+        "gradient_color_3": "#DECFF2",
+        "gradient_color_4": "#3B82FF",
+        "gradient_color_5": "#FFFFFF",
+        "gradient_speed": 2,
+        "gradient_intensity": 1,
+        "show_wave": false,
+        "wave_color": "#ffffff",
+        "wave_height": 20,
+        "show_lines": false,
+        "line_color": "#ffffff",
+        "line_opacity": 15,
+        "line_count": 30,
+        "line_thickness": 3
+      }
+    },
+    "image_with_text_aVJjhR": {
+      "type": "image-with-text",
+      "name": "Image with Text",
+      "settings": {
+        "layout": "image-right",
+        "vertical_align": "center",
+        "image_style": "rounded",
+        "eyebrow": "About Us",
+        "heading": "Built for Shopify merchants who care about growth",
+        "subtitle": "",
+        "description": "<p>We help thousands of Shopify stores increase their average order value with a beautiful, conversion-optimized cart experience.</p>",
+        "primary_cta_label": "",
+        "primary_cta_url": "",
+        "secondary_cta_label": "Learn More",
+        "secondary_cta_url": "",
+        "text_color": "#0D1340",
+        "muted_color": "#50436F",
+        "accent_color": "#1D4AFE",
+        "bg_type": "solid",
+        "bg_color": "#ffffff",
         "linear_color_1": "#1D4AFE",
         "linear_color_2": "#6C3AED",
         "linear_angle": 180,
@@ -468,82 +615,17 @@
         "col2_speed": 19,
         "col3_speed": 17
       }
-    },
-    "cta_banner_6y8tYN": {
-      "type": "cta-banner",
-      "blocks": {
-        "bullet_krwy46": {
-          "type": "bullet",
-          "settings": {
-            "text": "Easy one-click setup"
-          }
-        },
-        "bullet_gMN6Li": {
-          "type": "bullet",
-          "settings": {
-            "text": "No coding required"
-          }
-        },
-        "bullet_C64EG6": {
-          "type": "bullet",
-          "settings": {
-            "text": "Works with any theme"
-          }
-        },
-        "bullet_AXxT8F": {
-          "type": "bullet",
-          "settings": {
-            "text": "Free plan available"
-          }
-        }
-      },
-      "block_order": [
-        "bullet_krwy46",
-        "bullet_gMN6Li",
-        "bullet_C64EG6",
-        "bullet_AXxT8F"
-      ],
-      "name": "CTA Banner",
-      "settings": {
-        "heading": "Ready to boost your store's revenue?",
-        "description": "Join thousands of Shopify merchants who have increased their average order value with our powerful cart solution.",
-        "primary_cta_label": "Get Started Free",
-        "primary_cta_url": "",
-        "secondary_cta_label": "Learn More",
-        "secondary_cta_url": "",
-        "card_bg": "#0D1340",
-        "text_color": "#ffffff",
-        "muted_text_color": "#ffffffb3",
-        "bg_type": "solid",
-        "bg_color": "#F5F7FA",
-        "linear_color_1": "#1D4AFE",
-        "linear_color_2": "#6C3AED",
-        "linear_angle": 180,
-        "gradient_color_1": "#1D4AFE",
-        "gradient_color_2": "#CFD4F2",
-        "gradient_color_3": "#DECFF2",
-        "gradient_color_4": "#3B82FF",
-        "gradient_color_5": "#FFFFFF",
-        "gradient_speed": 2,
-        "gradient_intensity": 1,
-        "show_wave": false,
-        "wave_color": "#ffffff",
-        "wave_height": 20,
-        "show_lines": false,
-        "line_color": "#ffffff",
-        "line_opacity": 15,
-        "line_count": 30,
-        "line_thickness": 3
-      }
     }
   },
   "order": [
     "hero_Kjmb7H",
     "testimonials_WKAXKd",
-    "bento_grid_Fb3PGi",
     "feature_accordion_kaBkzH",
+    "bento_grid_Fb3PGi",
     "section_title_fxWYA8",
     "cta_banner_6y8tYN",
+    "image_with_text_n8CX6P",
+    "image_with_text_aVJjhR",
     "testimonials_columns_paDT9g"
   ]
 }
